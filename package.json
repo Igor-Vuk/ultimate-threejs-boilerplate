@@ -1,0 +1,30 @@
+{
+  "name": "threejs-journey-exercise",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@react-three/eslint-plugin": "^0.1.1",
+    "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^8.7.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.5.1",
+    "vite": "^5.0.12"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.96.1",
+    "@react-three/fiber": "^8.15.15",
+    "@react-three/postprocessing": "^2.15.12",
+    "leva": "^0.9.35",
+    "r3f-perf": "7.1",
+    "react": "18.2",
+    "react-dom": "18.2",
+    "three": "^0.160.1"
+  }
+}
