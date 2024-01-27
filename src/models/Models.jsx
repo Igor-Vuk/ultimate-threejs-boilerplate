@@ -25,8 +25,6 @@ const Models = () => {
   const group = useRef()
   const { actions } = useAnimations(modelFiles.animations, group)
 
-  console.log("RRRRRR", actions)
-
   /* ----------------------leva--------------------- */
   const sceneRender = SceneRenderControl()
 
