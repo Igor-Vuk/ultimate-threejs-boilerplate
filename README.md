@@ -8,12 +8,13 @@ This is a starting point with most useful features already implemented.
 2. run `npm run dev`
 3. project will automatically open in your browser
 4. to **view it on mobile**, after running `npm install` look for the **Network** address in the console.
-5. run `npm run build` to build for deployment
+5. `npm run preview` to locally preview the production build
+6. run `npm run build` to build for deployment. This will also create `stats.html` file which is a **Rollup Visualizer**
 
 ## What does it include?
 
 - `three`, `react-three/drei` and `react-three-fiber` installed and configure
-- `vite` and `vite.config.js` file
+- `vite` and `vite.config.js` file. `Rollup` is used for bundling
 - `leva` GUI installed and configured to be used with basic features needed for webgl:
 
   - _canvas control_

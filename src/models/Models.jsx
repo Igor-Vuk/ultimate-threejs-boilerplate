@@ -9,13 +9,13 @@ const Models = () => {
   const [environmentMapIntensity, setEnvironmentMapIntensity] = useState(1)
 
   /* -----------------------------Files------------------------------- */
-  const modelFiles = useGLTF("./models/water_park-working_version.glb")
+  const modelFiles = useGLTF("/models/water_park-working_version.glb")
   const textureFiles = useTexture({
-    map: "./textures/baked-flat-flamingo_batch_DIFFUSE.jpg",
+    map: "/textures/baked-flat-flamingo_batch_DIFFUSE.jpg",
     // aoMap: "./textures/baked-flat-no-specular_AO.jpg",
   })
   const environmentMapFiles =
-    "./environmentMaps/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
+    "/environmentMaps/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
   /* ---------------------------------------------------------------- */
 
   textureFiles.map.flipY = false

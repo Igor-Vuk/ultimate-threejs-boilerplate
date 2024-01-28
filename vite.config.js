@@ -1,24 +1,23 @@
-import react from '@vitejs/plugin-react'
+import react from "@vitejs/plugin-react"
+import { visualizer } from "rollup-plugin-visualizer"
+import { splitVendorChunkPlugin } from "vite"
 
-const isCodeSandbox = 'SANDBOX_URL' in process.env || 'CODESANDBOX_HOST' in process.env
+const isCodeSandbox =
+  "SANDBOX_URL" in process.env || "CODESANDBOX_HOST" in process.env
 
 export default {
-    plugins:
-    [
-        react()
-    ],
-    root: 'src/',
-    publicDir: "../public/",
-    base: './',
-    server:
-    {
-        host: true,
-        open: !isCodeSandbox // Open if it's not a CodeSandbox
-    },
-    build:
-    {
-        outDir: '../dist',
-        emptyOutDir: true,
-        sourcemap: true
-    }
+  plugins: [react(), splitVendorChunkPlugin(), visualizer()],
+  root: "src/",
+  publicDir: "../public/",
+  base: "./",
+  server: {
+    host: true,
+    open: !isCodeSandbox, // Open if it's not a CodeSandbox
+  },
+  build: {
+    outDir: "../dist",
+    emptyOutDir: true,
+    sourcemap: true,
+    chunkSizeWarningLimit: 1600, // remove 500kb warning
+  },
 }
