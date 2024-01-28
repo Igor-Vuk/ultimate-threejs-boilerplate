@@ -1,12 +1,13 @@
 import react from "@vitejs/plugin-react"
 import { visualizer } from "rollup-plugin-visualizer"
 import { splitVendorChunkPlugin } from "vite"
+import vercel from "vite-plugin-vercel"
 
 const isCodeSandbox =
   "SANDBOX_URL" in process.env || "CODESANDBOX_HOST" in process.env
 
 export default {
-  plugins: [react(), splitVendorChunkPlugin(), visualizer()],
+  plugins: [react(), splitVendorChunkPlugin(), vercel(), visualizer()],
   root: "src/",
   publicDir: "../public/",
   base: "./",
