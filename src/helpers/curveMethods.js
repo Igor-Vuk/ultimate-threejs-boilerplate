@@ -41,10 +41,10 @@ const getTubeFromCurve = (curve) => {
 }
 
 const loadCurveFromJSON = async (parrotPath) => {
-  let curve = await createCurveFromJSON(parrotPath)
-  let curveTubeMesh = await getTubeFromCurve(curve)
+  const curve = await createCurveFromJSON(parrotPath)
+  const curveTubeMesh = await getTubeFromCurve(curve)
 
-  let curveAndMesh = {
+  const curveAndMesh = {
     curve: curve,
     mesh: curveTubeMesh,
   }
