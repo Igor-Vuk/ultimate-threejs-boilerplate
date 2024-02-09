@@ -11,5 +11,5 @@ root.render(
   <StrictMode>
     <Loader />
     <Experience />
-  </StrictMode>
+  </StrictMode>,
 )

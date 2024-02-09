@@ -1,6 +1,6 @@
 import { useState, useRef } from "react"
 import { useGLTF, useTexture, useAnimations } from "@react-three/drei"
-import { SceneRenderControl } from "../debug/leva"
+import { SceneRenderControl } from "../helpers/leva"
 
 import EnvironmentMap from "../scene/EnvironmentMap"
 import WaterPark from "./WaterPark"
@@ -11,7 +11,7 @@ const Models = () => {
   /* -----------------------------Files------------------------------- */
   const modelFiles = useGLTF("/models/water_park-working_version.glb")
   const textureFiles = useTexture({
-    map: "/textures/baked-flat-flamingo_batch_DIFFUSE.jpg",
+    map: "/textures/baked-flat_batch_DIFFUSE-min.jpg",
     // aoMap: "./textures/baked-flat-no-specular_AO.jpg",
   })
   const environmentMapFiles =

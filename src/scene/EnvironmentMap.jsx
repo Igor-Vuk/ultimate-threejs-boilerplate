@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { Environment } from "@react-three/drei"
-import { EnvironmentMapControl } from "../debug/leva"
+import { EnvironmentMapControl } from "../helpers/leva"
 import PropTypes from "prop-types"
 
 const EnvironmentMap = ({

@@ -1,14 +1,57 @@
-import { useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
+import { useFrame } from "@react-three/fiber"
 import PropTypes from "prop-types"
 
+import parrotPath from "../data/parrotPath.json"
+import loadCurveFromJSON from "../helpers/curveMethods.js"
+
 const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
+  const [parrotPathCurve, setParrotPathCurve] = useState(null)
+
   /* ----------------------ref--------------------- */
+  const parrotRef = useRef()
 
   useEffect(() => {
-    /* Adjust animation */
+    const loadCurve = async () => {
+      try {
+        /* wait for the curve to be generated before animating in useFrame */
+        const curve = await loadCurveFromJSON(parrotPath)
+        setParrotPathCurve(curve)
+      } catch (error) {
+        console.error("Error loading curve:", error)
+      }
+    }
+
+    loadCurve()
+  }, [])
+
+  useEffect(() => {
+    /* Adjust and play animations */
     if (actions) {
       actions.ChildrenPoolWater?.setDuration(4).play()
       actions.Flamingo?.setDuration(20).play()
+      actions.Parrot?.play()
+    }
+  }, [actions])
+
+  useFrame((state) => {
+    /* after curve is generated start following the path */
+    if (parrotPathCurve) {
+      const elapsedTime = state.clock.elapsedTime
+
+      /* Adjust the speed  */
+      const time = (elapsedTime * 0.1) % 1
+
+      /* Position of the model */
+      const position = parrotPathCurve.curve.getPointAt(time)
+
+      /* Look at the right direction  */
+      const position2 = parrotPathCurve.curve.getPointAt(
+        Math.min(1, time + 0.00001) ?? position,
+      )
+
+      parrotRef.current.position.copy(position)
+      parrotRef.current.lookAt(position2)
     }
   })
 
@@ -54,6 +97,40 @@ const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
           )
         }
 
+        case "parrot-armature": {
+          /* eslint-disable no-unused-vars */
+          const {
+            castShadow,
+            receiveShadow,
+            geometry,
+            ...customMeshProperties
+          } = {
+            ...defaultMeshProperties,
+            ref: parrotRef,
+          }
+
+          return (
+            <group {...customMeshProperties}>
+              <skinnedMesh
+                castShadow
+                skinnedMesh
+                name={mesh.children[0].name}
+                geometry={mesh.children[0].geometry}
+                material={mesh.children[0].material}
+                skeleton={mesh.children[0].skeleton}
+              >
+                <meshStandardMaterial {...textures} />
+              </skinnedMesh>
+
+              <primitive
+                object={mesh.children[0].skeleton.bones.find(
+                  (obj) => obj.name === "butt_bone",
+                )}
+              />
+            </group>
+          )
+        }
+
         default: {
           return (
             <mesh {...defaultMeshProperties}>
@@ -70,7 +147,17 @@ const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
     })
   }
 
-  return <>{renderModel()}</>
+  /* we can render curve if needed */
+  // const renderCurve = () => {
+  //   return parrotPathCurve ? <mesh {...parrotPathCurve.mesh}></mesh> : null
+  // }
+
+  return (
+    <>
+      {renderModel()}
+      {/* {renderCurve()} */}
+    </>
+  )
 }
 
 export default WaterPark

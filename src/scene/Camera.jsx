@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import { PerspectiveCamera, useHelper } from "@react-three/drei"
 import { CameraHelper } from "three"
-import { CameraControl } from "../debug/leva"
+import { CameraControl } from "../helpers/leva"
 
 const Camera = () => {
   const cameraRef = useRef(null)

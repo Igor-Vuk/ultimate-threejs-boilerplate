@@ -1,5 +1,5 @@
 import { Grid } from "@react-three/drei"
-import { GridControl } from "../debug/leva"
+import { GridControl } from "../helpers/leva"
 
 const GridHelper = () => {
   const { ...gridConfig } = GridControl()

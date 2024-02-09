@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { AxesControl } from "../debug/leva"
+import { AxesControl } from "../helpers/leva"
 
 const AxesHelper = () => {
   const axesHelperRef = useRef(null)

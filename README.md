@@ -32,9 +32,14 @@ This is a starting point with most useful features already implemented.
 
   This features can be easily turned off/on or changed.
 
-  Leva also export `set` function that can be used to control it outside of GUI
+  Leva also exports `set` function that can be used to control it outside of GUI
 
-- preparation for **mode**, **texture**, **environment map** and **animation** loading
+- `preparation` for easy loding and implementation:
+  - **model loading** - takes compressed and nonrmal version (.glb),
+  - **texture loading** - add any texture (diffuse, AO...),
+  - **environment map loading**
+  - **action, morph, skinned animation loading** - just play different type of animations
+  - **curve loading and follow path** - by loading `.json` file with vertices coordinate and calling the `curveMethod` function we can load curves as a mesh or make object follow them (example included)
 - `Suspense` for loading included with option to use **fallback** or **Loader** from drei
 
 - `eslint` and `.eslintrc` configured for linting the files

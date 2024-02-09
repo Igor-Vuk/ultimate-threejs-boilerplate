@@ -4,7 +4,7 @@ import { Canvas } from "@react-three/fiber"
 import * as THREE from "three"
 import { Leva } from "leva"
 
-import { CanvasControl, SceneRenderControl } from "./debug/leva"
+import { CanvasControl, SceneRenderControl } from "./helpers/leva"
 
 import Camera from "./scene/Camera"
 import Controls from "./scene/Controls"

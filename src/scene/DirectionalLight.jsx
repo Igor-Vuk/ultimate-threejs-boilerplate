@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import { useHelper } from "@react-three/drei"
 import { DirectionalLightHelper, CameraHelper } from "three"
-import { DirectionalLightControl, ShadowCameraControl } from "../debug/leva"
+import { DirectionalLightControl, ShadowCameraControl } from "../helpers/leva"
 
 const DirectionalLight = () => {
   /* ----------------------ref--------------------- */
@@ -15,7 +15,7 @@ const DirectionalLight = () => {
   /* --------------------helper-------------------- */
   useHelper(
     directionalLight.values.helper && directionalLightRef,
-    DirectionalLightHelper
+    DirectionalLightHelper,
   )
   useHelper(shadowCamera.values.helper && cameraRef, CameraHelper)
 

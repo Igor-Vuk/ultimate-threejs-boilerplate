@@ -1,5 +1,5 @@
 import { SoftShadows } from "@react-three/drei"
-import { SoftShadowsControl } from "../debug/leva"
+import { SoftShadowsControl } from "../helpers/leva"
 
 const SoftShadowsModifier = () => {
   const { ...shadowConfig } = SoftShadowsControl()
