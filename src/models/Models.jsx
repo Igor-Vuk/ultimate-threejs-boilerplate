@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import { useGLTF, useTexture, useAnimations } from "@react-three/drei"
-import WaterPark from "./WaterPark"
+import WaterPark from "./WaterPark/WaterPark"
 
 const Models = () => {
   /* -----------------------------Files------------------------------- */

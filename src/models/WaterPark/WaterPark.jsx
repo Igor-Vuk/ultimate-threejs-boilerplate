@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { useFrame } from "@react-three/fiber"
 import PropTypes from "prop-types"
 
-import parrotPath from "../data/parrotPath.json"
-import loadCurveFromJSON from "../helpers/curveMethods.js"
+import parrotPath from "../../data/parrotPath.json"
+import loadCurveFromJSON from "../../helpers/curveMethods.js"
 
 const WaterPark = ({ model, textures, actions }) => {
   const [parrotPathCurve, setParrotPathCurve] = useState(null)
