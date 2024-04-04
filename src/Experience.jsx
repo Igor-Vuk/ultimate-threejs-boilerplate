@@ -9,6 +9,7 @@ import { CanvasControl, SceneRenderControl } from "./helpers/leva"
 import Camera from "./scene/Camera"
 import Controls from "./scene/Controls"
 import DirectionalLight from "./scene/DirectionalLight"
+import EnvironmentMap from "./scene/EnvironmentMap"
 import SoftShadowsModifier from "./scene/SoftShadowsModifier"
 import AxesHelper from "./scene/AxesHelper"
 import PerformanceMonitor from "./scene/PerformanceMonitor"
@@ -49,6 +50,7 @@ export default function Experience() {
         <Camera />
         {sceneRender.values.orbit_controls && <Controls />}
         {sceneRender.values.directional_lights && <DirectionalLight />}
+        {sceneRender.values.environment_map && <EnvironmentMap />}
         {sceneRender.values.soft_shadows && <SoftShadowsModifier />}
         {sceneRender.values.axes_helper && <AxesHelper />}
         {sceneRender.values.performance_monitor && <PerformanceMonitor />}

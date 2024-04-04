@@ -334,29 +334,62 @@ const SoftShadowsControl = () => {
 const EnvironmentMapControl = () => {
   const defaultValues = {
     background: true,
-    intensity: 0.5,
+    backgroundIntensity: 1.0,
+    backgroundRotation: [0, Math.PI / 2, 0],
     blur: 0,
+    environmentIntensity: 1.0,
+    environmentRotation: [0, Math.PI / 2, 0],
   }
 
-  const [{ background, intensity, blur }, set] = useControls(
-    "environmentMap",
-    () => ({
-      background: defaultValues.background,
-      intensity: { value: defaultValues.intensity, min: 0, max: 2, step: 0.01 },
-      blur: {
-        value: defaultValues.blur,
-        min: 0,
-        max: 0.5,
-        step: 0.01,
-      },
-      reset: button(() => {
-        set({
-          ...defaultValues,
-        })
-      }),
+  const [
+    {
+      background,
+      backgroundIntensity,
+      backgroundRotation,
+      blur,
+      environmentIntensity,
+      environmentRotation,
+    },
+    set,
+  ] = useControls("environmentMap", () => ({
+    background: defaultValues.background,
+    backgroundIntensity: {
+      value: defaultValues.backgroundIntensity,
+      min: 0,
+      step: 0.01,
+    },
+    backgroundRotation: defaultValues.backgroundRotation,
+    blur: {
+      value: defaultValues.blur,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    environmentIntensity: {
+      value: defaultValues.environmentIntensity,
+      min: 0,
+      max: 2,
+      step: 0.01,
+    },
+    environmentRotation: defaultValues.environmentRotation,
+
+    reset: button(() => {
+      set({
+        ...defaultValues,
+      })
     }),
-  )
-  return { values: { background, intensity, blur }, set }
+  }))
+  return {
+    values: {
+      background,
+      backgroundIntensity,
+      backgroundRotation,
+      blur,
+      environmentIntensity,
+      environmentRotation,
+    },
+    set,
+  }
 }
 
 /* --------------------------------AxesControl------------------------------------ */

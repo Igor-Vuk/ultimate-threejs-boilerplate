@@ -34,8 +34,8 @@ This is a starting point with most useful features already implemented.
 
   Leva also exports `set` function that can be used to control it outside of GUI
 
-- `preparation` for easy loding and implementation:
-  - **model loading** - takes compressed and nonrmal version (.glb),
+- `preparation` for easy loading and implementation:
+  - **model loading** - takes compressed and normal version (.glb),
   - **texture loading** - add any texture (diffuse, AO...),
   - **environment map loading**
   - **action, morph, skinned animation loading** - just play different type of animations

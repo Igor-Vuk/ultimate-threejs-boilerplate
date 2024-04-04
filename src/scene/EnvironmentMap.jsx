@@ -1,29 +1,23 @@
-import { useEffect } from "react"
 import { Environment } from "@react-three/drei"
 import { EnvironmentMapControl } from "../helpers/leva"
-import PropTypes from "prop-types"
 
-const EnvironmentMap = ({
-  setEnvironmentMapIntensity,
-  environmentMapFiles,
-}) => {
+const environmentMapFiles =
+  "/environmentMaps/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
+
+const EnvironmentMap = () => {
   const environmentMap = EnvironmentMapControl()
 
-  useEffect(() => {
-    setEnvironmentMapIntensity(environmentMap.values.intensity)
-  }, [environmentMap.values.intensity, setEnvironmentMapIntensity])
   return (
     <Environment
       background={environmentMap.values.background}
-      blur={environmentMap.values.blur}
+      backgroundIntensity={environmentMap.values.backgroundIntensity}
+      backgroundRotation={environmentMap.values.backgroundRotation}
+      backgroundBlurriness={environmentMap.values.blur}
+      environmentIntensity={environmentMap.values.environmentIntensity}
+      environmentRotation={environmentMap.values.environmentRotation}
       files={environmentMapFiles}
     />
   )
 }
 
 export default EnvironmentMap
-
-EnvironmentMap.propTypes = {
-  setEnvironmentMapIntensity: PropTypes.func,
-  environmentMapFiles: PropTypes.string,
-}

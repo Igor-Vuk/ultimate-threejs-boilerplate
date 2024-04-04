@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import parrotPath from "../data/parrotPath.json"
 import loadCurveFromJSON from "../helpers/curveMethods.js"
 
-const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
+const WaterPark = ({ model, textures, actions }) => {
   const [parrotPathCurve, setParrotPathCurve] = useState(null)
 
   /* ----------------------ref--------------------- */
@@ -21,7 +21,6 @@ const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
         console.error("Error loading curve:", error)
       }
     }
-
     loadCurve()
   }, [])
 
@@ -89,7 +88,6 @@ const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
             <mesh {...customMeshProperties}>
               <meshStandardMaterial
                 {...textures}
-                envMapIntensity={environmentMapIntensity}
 
                 /*  color={"#1D8D90"} */
               />
@@ -136,7 +134,6 @@ const WaterPark = ({ model, textures, actions, environmentMapIntensity }) => {
             <mesh {...defaultMeshProperties}>
               <meshStandardMaterial
                 {...textures}
-                envMapIntensity={environmentMapIntensity}
                 // wireframe
               />
             </mesh>
@@ -166,5 +163,4 @@ WaterPark.propTypes = {
   model: PropTypes.object.isRequired,
   textures: PropTypes.object,
   actions: PropTypes.object,
-  environmentMapIntensity: PropTypes.number,
 }
