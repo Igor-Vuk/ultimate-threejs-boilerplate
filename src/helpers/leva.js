@@ -141,6 +141,30 @@ const CameraControl = (cameraRef) => {
   return { values: { helper }, set }
 }
 
+/* ----------------------------ControlsControl----------------------------- */
+
+const ControlsControl = (controlsRef) => {
+  const defaultValues = {
+    damping: true,
+  }
+
+  const [{ damping }, set] = useControls("orbit_controls", () => ({
+    damping: {
+      value: defaultValues.damping,
+      onChange: (value) => {
+        controlsRef.current.enableDamping = value
+      },
+    },
+    reset: button(() => {
+      set({
+        ...defaultValues,
+      })
+    }),
+  }))
+
+  return { values: { damping }, set }
+}
+
 /* ----------------------------DirectionalLightControl----------------------------- */
 
 const DirectionalLightControl = (directionalLightRef) => {
@@ -351,7 +375,7 @@ const EnvironmentMapControl = () => {
       environmentRotation,
     },
     set,
-  ] = useControls("environmentMap", () => ({
+  ] = useControls("environment_map", () => ({
     background: defaultValues.background,
     backgroundIntensity: {
       value: defaultValues.backgroundIntensity,
@@ -453,7 +477,7 @@ const GridControl = () => {
       infiniteGrid,
     },
     set,
-  ] = useControls("grid", () => ({
+  ] = useControls("grid_helper", () => ({
     position: defaultValues.position,
     gridSize: defaultValues.gridSize,
     cellSize: { value: defaultValues.cellSize, min: 0, max: 10, step: 0.1 },
@@ -520,6 +544,7 @@ export {
   SceneRenderControl,
   CanvasControl,
   CameraControl,
+  ControlsControl,
   DirectionalLightControl,
   ShadowCameraControl,
   SoftShadowsControl,

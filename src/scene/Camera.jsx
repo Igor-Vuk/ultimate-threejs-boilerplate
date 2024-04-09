@@ -4,6 +4,7 @@ import { CameraHelper } from "three"
 import { CameraControl } from "../helpers/leva"
 
 const Camera = () => {
+  console.log("RERENDER CAMERA")
   const cameraRef = useRef(null)
 
   const camera = CameraControl(cameraRef)

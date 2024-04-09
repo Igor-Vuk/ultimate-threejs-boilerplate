@@ -9,7 +9,7 @@ const WaterPark = ({ model, textures, actions }) => {
   const [parrotPathCurve, setParrotPathCurve] = useState(null)
 
   /* ----------------------ref--------------------- */
-  const parrotRef = useRef()
+  const parrotRef = useRef(null)
 
   useEffect(() => {
     const loadCurve = async () => {
@@ -58,89 +58,95 @@ const WaterPark = ({ model, textures, actions }) => {
 
   const renderModel = () => {
     return model.scene.children.map((mesh) => {
-      /* Render every collection separately if we want*/
-      /*  if (mesh.userData.collection === "children_pool") { */
-      /* Default props */
-      const defaultMeshProperties = {
-        key: mesh.uuid,
-        name: mesh.name,
-        castShadow: true,
-        receiveShadow: true,
-        geometry: mesh.geometry,
-        position: mesh.position,
-        rotation: mesh.rotation,
-        scale: mesh.scale,
-      }
+      /* Choose which collections to render */
+      const collection = mesh.userData.collection
+      if (
+        collection === "ground_base" ||
+        collection === "children_pool" ||
+        collection === "animals" ||
+        collection === "vegetation"
+      ) {
+        /* Default props */
+        const defaultMeshProperties = {
+          key: mesh.uuid,
+          name: mesh.name,
+          castShadow: true,
+          receiveShadow: true,
+          geometry: mesh.geometry,
+          position: mesh.position,
+          rotation: mesh.rotation,
+          scale: mesh.scale,
+        }
 
-      /* Add or remove properties from specific objects and render the rest as default */
+        /* Add or remove properties from specific objects and render the rest as default */
 
-      switch (mesh.name) {
-        case "children_pool_water": {
-          /* eslint-disable no-unused-vars */
-          const { castShadow, ...customMeshProperties } = {
-            // remove and add properties
-            ...defaultMeshProperties,
-            morphTargetDictionary: mesh.morphTargetDictionary,
-            morphTargetInfluences: mesh.morphTargetInfluences,
+        switch (mesh.name) {
+          case "children_pool_water": {
+            /* eslint-disable no-unused-vars */
+            const { castShadow, ...customMeshProperties } = {
+              // remove and add properties
+              ...defaultMeshProperties,
+              morphTargetDictionary: mesh.morphTargetDictionary,
+              morphTargetInfluences: mesh.morphTargetInfluences,
+            }
+
+            return (
+              <mesh {...customMeshProperties}>
+                <meshStandardMaterial
+                  {...textures}
+
+                  /*  color={"#1D8D90"} */
+                />
+              </mesh>
+            )
           }
 
-          return (
-            <mesh {...customMeshProperties}>
-              <meshStandardMaterial
-                {...textures}
+          case "parrot-armature": {
+            /* eslint-disable no-unused-vars */
+            const {
+              castShadow,
+              receiveShadow,
+              geometry,
+              ...customMeshProperties
+            } = {
+              ...defaultMeshProperties,
+              ref: parrotRef,
+            }
 
-                /*  color={"#1D8D90"} */
-              />
-            </mesh>
-          )
-        }
+            return (
+              <group {...customMeshProperties}>
+                <skinnedMesh
+                  castShadow
+                  skinnedMesh
+                  name={mesh.children[0].name}
+                  geometry={mesh.children[0].geometry}
+                  material={mesh.children[0].material}
+                  skeleton={mesh.children[0].skeleton}
+                >
+                  <meshStandardMaterial {...textures} />
+                </skinnedMesh>
 
-        case "parrot-armature": {
-          /* eslint-disable no-unused-vars */
-          const {
-            castShadow,
-            receiveShadow,
-            geometry,
-            ...customMeshProperties
-          } = {
-            ...defaultMeshProperties,
-            ref: parrotRef,
+                <primitive
+                  object={mesh.children[0].skeleton.bones.find(
+                    (obj) => obj.name === "butt_bone",
+                  )}
+                />
+              </group>
+            )
           }
 
-          return (
-            <group {...customMeshProperties}>
-              <skinnedMesh
-                castShadow
-                skinnedMesh
-                name={mesh.children[0].name}
-                geometry={mesh.children[0].geometry}
-                material={mesh.children[0].material}
-                skeleton={mesh.children[0].skeleton}
-              >
-                <meshStandardMaterial {...textures} />
-              </skinnedMesh>
-
-              <primitive
-                object={mesh.children[0].skeleton.bones.find(
-                  (obj) => obj.name === "butt_bone",
-                )}
-              />
-            </group>
-          )
-        }
-
-        default: {
-          return (
-            <mesh {...defaultMeshProperties}>
-              <meshStandardMaterial
-                {...textures}
-                // wireframe
-              />
-            </mesh>
-          )
+          default: {
+            return (
+              <mesh {...defaultMeshProperties}>
+                <meshStandardMaterial
+                  {...textures}
+                  // wireframe
+                />
+              </mesh>
+            )
+          }
         }
       }
-      /*  } */
     })
   }
 

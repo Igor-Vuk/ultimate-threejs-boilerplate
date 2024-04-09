@@ -1,9 +1,10 @@
 import react from "@vitejs/plugin-react"
+import glsl from "vite-plugin-glsl"
 import { visualizer } from "rollup-plugin-visualizer"
 import { splitVendorChunkPlugin } from "vite"
 
 export default {
-  plugins: [react(), splitVendorChunkPlugin(), visualizer()],
+  plugins: [react(), glsl(), splitVendorChunkPlugin(), visualizer()],
   root: "src/",
   publicDir: "../public/",
   base: "./",

@@ -9,13 +9,13 @@ This is a starting point with most useful features already implemented.
 3. project will automatically open in your browser
 4. to **view it on mobile**, after running `npm install` look for the **Network** address in the console.
 5. `npm run preview` to locally preview the production build
-6. run `npm run build` to build for deployment. This will also create `stats.html` file which is a **Rollup Visualizer**
+6. run `npm run build` to build for deployment. This will also create `stats.html` file which is a **Rollup Visualizer** that we can open in any browser
 
 ## What does it include?
 
 - `three`, `react-three/drei` and `react-three-fiber` installed and configure
 - `vite` and `vite.config.js` file. `Rollup` is used for bundling
-- `leva` GUI installed and configured to be used with basic features needed for webgl:
+- `leva` GUI installed and configured to be used with basic features needed for webgl. Make your scene perfect using leva controls for:
 
   - _canvas control_
   - _camera control_
@@ -24,6 +24,7 @@ This is a starting point with most useful features already implemented.
   - _shadow camera control_
   - _soft shadow control_
   - _environment map control_
+  - _background control_
   - _axes helper control_
   - _grid helper control_
   - _performance monitor(Perf) control_
@@ -35,11 +36,17 @@ This is a starting point with most useful features already implemented.
   Leva also exports `set` function that can be used to control it outside of GUI
 
 - `preparation` for easy loading and implementation:
+
   - **model loading** - takes compressed and normal version (.glb),
   - **texture loading** - add any texture (diffuse, AO...),
   - **environment map loading**
   - **action, morph, skinned animation loading** - just play different type of animations
   - **curve loading and follow path** - by loading `.json` file with vertices coordinate and calling the `curveMethod` function we can load curves as a mesh or make object follow them (example included)
+
+- `Custom shaders loading` - create your own custom shaders. Ability to load `.glsl` files is added to vite. Basic fragment and vertex shader example is added and loaded using `shaderMaterial` from drei for ease of use with react components. Hot reload for fragment and vertex shader files is also implemented.
+
+- `Custom collection names` - render specific model collections in every components based on custom properties
+
 - `Suspense` for loading included with option to use **fallback** or **Loader** from drei
 
 - `eslint` and `.eslintrc` configured for linting the files

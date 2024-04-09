@@ -19,6 +19,7 @@ import GridHelper from "./scene/GridHelper"
 import Models from "./models/Models"
 
 export default function Experience() {
+  console.log("RERENDER EXPERIENCE")
   const sceneRender = SceneRenderControl()
   const canvas = CanvasControl()
 
@@ -49,11 +50,11 @@ export default function Experience() {
       >
         <Camera />
         {sceneRender.values.orbit_controls && <Controls />}
-        {sceneRender.values.directional_lights && <DirectionalLight />}
-        {sceneRender.values.environment_map && <EnvironmentMap />}
-        {sceneRender.values.soft_shadows && <SoftShadowsModifier />}
-        {sceneRender.values.axes_helper && <AxesHelper />}
         {sceneRender.values.performance_monitor && <PerformanceMonitor />}
+        {sceneRender.values.directional_lights && <DirectionalLight />}
+        {sceneRender.values.soft_shadows && <SoftShadowsModifier />}
+        {sceneRender.values.environment_map && <EnvironmentMap />}
+        {sceneRender.values.axes_helper && <AxesHelper />}
         {sceneRender.values.grid_helper && <GridHelper />}
 
         <Center>
