@@ -19,7 +19,6 @@ import GridHelper from "./scene/GridHelper"
 import Models from "./models/Models"
 
 export default function Experience() {
-  console.log("RERENDER EXPERIENCE")
   const sceneRender = SceneRenderControl()
   const canvas = CanvasControl()
 

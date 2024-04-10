@@ -92,6 +92,11 @@ const CameraControl = (cameraRef) => {
       y: 6,
       z: 20,
     },
+    angle: {
+      x: 0,
+      y: 1,
+      z: 0,
+    },
     near: 0.1,
     far: 200,
   }
@@ -112,6 +117,14 @@ const CameraControl = (cameraRef) => {
       z: defaultValues.position.z,
       onChange: (value) => {
         cameraRef.current.position.copy(value)
+      },
+    },
+    angle: {
+      x: defaultValues.angle.x,
+      y: defaultValues.angle.y,
+      z: defaultValues.angle.z,
+      onChange: (value) => {
+        cameraRef.current.up.copy(value)
       },
     },
     near: {
@@ -180,42 +193,44 @@ const DirectionalLightControl = (directionalLightRef) => {
     color: "#ffffff",
   }
 
-  const [{ helper, castShadow }, set] = useControls(
-    "directional_lights",
-    () => ({
-      helper: defaultValues.helper,
-      castShadow: defaultValues.castShadow,
-      intensity: {
-        value: defaultValues.intensity,
-        min: 0,
-        max: 10,
-        step: 0.001,
-        onChange: (value) => {
-          directionalLightRef.current.intensity = value
-        },
+  const [{ helper }, set] = useControls("directional_lights", () => ({
+    helper: defaultValues.helper,
+    castShadow: {
+      value: defaultValues.castShadow,
+      onChange: (value) => {
+        directionalLightRef.current.castShadow = value
       },
-      position: {
-        x: defaultValues.position.x,
-        y: defaultValues.position.y,
-        z: defaultValues.position.z,
-        onChange: (value) => {
-          directionalLightRef.current.position.copy(value)
-        },
+    },
+    intensity: {
+      value: defaultValues.intensity,
+      min: 0,
+      max: 10,
+      step: 0.001,
+      onChange: (value) => {
+        directionalLightRef.current.intensity = value
       },
-      color: {
-        value: defaultValues.color,
-        onChange: (value) => {
-          directionalLightRef.current.color = new Color(value)
-        },
+    },
+    position: {
+      x: defaultValues.position.x,
+      y: defaultValues.position.y,
+      z: defaultValues.position.z,
+      onChange: (value) => {
+        directionalLightRef.current.position.copy(value)
       },
-      reset: button(() => {
-        set({
-          ...defaultValues,
-        })
-      }),
+    },
+    color: {
+      value: defaultValues.color,
+      onChange: (value) => {
+        directionalLightRef.current.color = new Color(value)
+      },
+    },
+    reset: button(() => {
+      set({
+        ...defaultValues,
+      })
     }),
-  )
-  return { values: { helper, castShadow }, set }
+  }))
+  return { values: { helper }, set }
 }
 
 /* -------------------------------ShadowCameraControl-------------------------------- */

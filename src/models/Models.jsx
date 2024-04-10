@@ -4,7 +4,6 @@ import WaterPark from "./WaterPark/WaterPark"
 import Flag from "./Flag/Flag"
 
 const Models = () => {
-  console.log("RERENDER MODELS")
   /* -----------------------------Files------------------------------- */
   const modelFiles = useGLTF("/models/water_park-working_version.glb")
   const bakedTexture = useTexture({

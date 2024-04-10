@@ -10,8 +10,6 @@ import flagFragmentShader from "../../shaders/flag/fragment.fs.glsl"
 import { FrequencyControl } from "../../helpers/leva-models.js"
 
 const Flag = ({ model, textures }) => {
-  console.log("RERENDER FRQUENCY")
-
   // const planeRef = useRef(null)
   const flagMaterialRef = useRef(null)
   const frequency = FrequencyControl()

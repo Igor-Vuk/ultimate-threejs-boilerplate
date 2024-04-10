@@ -20,10 +20,7 @@ const DirectionalLight = () => {
   useHelper(shadowCamera.values.helper && cameraRef, CameraHelper)
 
   return (
-    <directionalLight
-      ref={directionalLightRef}
-      castShadow={directionalLight.values.castShadow}
-    >
+    <directionalLight ref={directionalLightRef}>
       <orthographicCamera ref={cameraRef} attach="shadow-camera" />
     </directionalLight>
   )
