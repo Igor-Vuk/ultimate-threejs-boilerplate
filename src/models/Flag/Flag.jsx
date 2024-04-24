@@ -7,21 +7,24 @@ import PropTypes from "prop-types"
 import flagVertexShader from "../../shaders/flag/vertex.vs.glsl"
 import flagFragmentShader from "../../shaders/flag/fragment.fs.glsl"
 
-import { FrequencyControl } from "../../helpers/leva-models.js"
+import { FlagControl } from "../../helpers/leva-models.js"
 
 const Flag = ({ model, textures }) => {
   // const planeRef = useRef(null)
   const flagMaterialRef = useRef(null)
-  const frequency = FrequencyControl()
+  const flag = FlagControl()
 
   /* --------------------- shader material ------------------------ */
 
   const FlagMaterial = shaderMaterial(
     {
-      uFrequency: new THREE.Vector2(frequency.values.x, frequency.values.y),
+      uFrequency: new THREE.Vector2(
+        flag.values.frequencyX,
+        flag.values.frequencyY,
+      ),
       uAmplitude: new THREE.Vector2(
-        frequency.values.amplitudeX,
-        frequency.values.amplitudeY,
+        flag.values.amplitudeX,
+        flag.values.amplitudeY,
       ),
       uTime: 0,
       uTexture: textures.map,
@@ -50,7 +53,6 @@ const Flag = ({ model, textures }) => {
   // }, [])
 
   useFrame((state, delta) => {
-    /* we can update attributes directly like this */
     flagMaterialRef.current.uTime += delta
   })
 

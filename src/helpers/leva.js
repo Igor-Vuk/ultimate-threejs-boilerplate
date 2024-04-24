@@ -186,9 +186,9 @@ const DirectionalLightControl = (directionalLightRef) => {
     castShadow: true,
     intensity: 2.8,
     position: {
-      x: -9,
-      y: 15,
-      z: -8,
+      x: -48,
+      y: 48,
+      z: -25,
     },
     color: "#ffffff",
   }
@@ -238,12 +238,12 @@ const DirectionalLightControl = (directionalLightRef) => {
 const ShadowCameraControl = (directionalLightRef) => {
   const defaultValues = {
     helper: false,
-    near: 10,
-    far: 30,
-    top: 12.5,
-    bottom: -5,
-    left: -7,
-    right: 11,
+    near: 39,
+    far: 85.8,
+    top: 12,
+    bottom: -25,
+    left: -7.3,
+    right: 20.6,
     quality: 1024,
     bias: 0,
     normalBias: 0,
@@ -266,7 +266,7 @@ const ShadowCameraControl = (directionalLightRef) => {
       far: {
         value: defaultValues.far,
         min: 1,
-        max: 50,
+        max: 100,
         step: 0.1,
         onChange: (value) => {
           directionalLightRef.current.shadow.camera.far = value
