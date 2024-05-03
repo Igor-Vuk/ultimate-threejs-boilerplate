@@ -68,7 +68,6 @@ const WaterPark = ({ model, textures, actions }) => {
       ) {
         /* Default props */
         const defaultMeshProperties = {
-          key: mesh.uuid,
           name: mesh.name,
           castShadow: true,
           receiveShadow: true,
@@ -91,7 +90,7 @@ const WaterPark = ({ model, textures, actions }) => {
             }
 
             return (
-              <mesh {...customMeshProperties}>
+              <mesh {...customMeshProperties} key={mesh.uuid}>
                 <meshStandardMaterial
                   {...textures}
 
@@ -114,7 +113,7 @@ const WaterPark = ({ model, textures, actions }) => {
             }
 
             return (
-              <group {...customMeshProperties}>
+              <group {...customMeshProperties} key={mesh.uuid}>
                 <skinnedMesh
                   castShadow
                   skinnedMesh
@@ -137,7 +136,7 @@ const WaterPark = ({ model, textures, actions }) => {
 
           default: {
             return (
-              <mesh {...defaultMeshProperties}>
+              <mesh {...defaultMeshProperties} key={mesh.uuid}>
                 <meshStandardMaterial
                   {...textures}
                   // wireframe

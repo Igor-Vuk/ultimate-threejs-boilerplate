@@ -45,6 +45,8 @@ This is a starting point with most useful features already implemented.
 
 - `Custom shaders loading` - create your own custom shaders. Ability to load `.glsl` files is added to vite. Basic fragment and vertex shader example is added and loaded using `shaderMaterial` from drei for ease of use with react components. Hot reload for fragment and vertex shader files is also implemented.
 
+- `Physics` - implement physics easy using **react-three-rapier** library.
+
 - `Custom collection names` - render specific model collections in every components based on custom properties
 
 - `Suspense` for loading included with option to use **fallback** or **Loader** from drei

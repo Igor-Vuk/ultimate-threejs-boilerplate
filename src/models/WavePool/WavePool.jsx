@@ -1,5 +1,6 @@
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
+import { RigidBody, Physics } from "@react-three/rapier"
 import * as THREE from "three"
 import { useRef } from "react"
 import PropTypes from "prop-types"
@@ -44,7 +45,7 @@ const WavePool = ({ model, textures }) => {
 
   /* -------------------------------------------------------------- */
 
-  useFrame((state, delta) => {
+  useFrame((state /* delta */) => {
     /* we can update attributes directly like this */
     wavePoolMaterialRef.current.uTime = state.clock.elapsedTime
   })
@@ -76,14 +77,14 @@ const WavePool = ({ model, textures }) => {
   const renderWavePoolSurface = () => {
     return (
       <mesh
-        position={[-24.5, 1.6, -4.5]}
+        position={[-24.5, 0.1, -4.5]}
         rotation={[
           wavePool.values.planeRotationX,
           wavePool.values.planeRotationY,
           wavePool.values.planeRotationZ,
         ]}
       >
-        <planeGeometry args={[13, 22, 512, 512]} />
+        <boxGeometry args={[13, 22, 1, 512, 512, 1]} />
         <wavePoolMaterial
           key={WavePoolMaterial.key}
           ref={wavePoolMaterialRef}
@@ -93,11 +94,25 @@ const WavePool = ({ model, textures }) => {
     )
   }
 
+  const renderTorus = () => {
+    return (
+      <mesh position={[-24.5, 10.15, -4.5]} rotation={[2, 1, 1]}>
+        <torusGeometry args={[1, 0.4, 12, 43]} />
+        <meshStandardMaterial color="mediumpurple" />
+      </mesh>
+    )
+  }
+
   return (
-    <>
+    <Physics debug={false}>
       {renderModel()}
-      {renderWavePoolSurface()}
-    </>
+      <RigidBody type="fixed" colliders="hull">
+        {renderWavePoolSurface()}
+      </RigidBody>
+      <RigidBody type="dynamic" colliders="trimesh">
+        {renderTorus()}
+      </RigidBody>
+    </Physics>
   )
 }
 

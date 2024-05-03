@@ -52,7 +52,7 @@ const FlagControl = () => {
 
 const WavePoolControl = () => {
   const defaultValues = {
-    bigWavesElevation: 0.45,
+    bigWavesElevation: 0.31,
     bigWavesSpeed: 0.37,
     bigWavesFrequencyX: 1.28,
     bigWavesFrequencyY: 0.0,
@@ -67,9 +67,9 @@ const WavePoolControl = () => {
     uColorOffset: 0.08,
     uColorMultiplier: 2.99,
 
-    planeRotationX: -1.48,
+    planeRotationX: Math.PI / 2,
     planeRotationY: 0.02,
-    planeRotationZ: 0.28,
+    planeRotationZ: -0.28,
   }
 
   const [
