@@ -1,28 +1,14 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import { useFrame } from "@react-three/fiber"
 import PropTypes from "prop-types"
-
+import useJsonCurve from "../../customHooks/useJsonCurve"
 import parrotPath from "../../data/parrotPath.json"
-import loadCurveFromJSON from "../../helpers/curveMethods.js"
 
 const WaterPark = ({ model, textures, actions }) => {
-  const [parrotPathCurve, setParrotPathCurve] = useState(null)
-
   /* ----------------------ref--------------------- */
   const parrotRef = useRef(null)
 
-  useEffect(() => {
-    const loadCurve = async () => {
-      try {
-        /* wait for the curve to be generated before animating in useFrame */
-        const curve = await loadCurveFromJSON(parrotPath)
-        setParrotPathCurve(curve)
-      } catch (error) {
-        console.error("Error loading curve:", error)
-      }
-    }
-    loadCurve()
-  }, [])
+  const { curvePath } = useJsonCurve(parrotPath)
 
   useEffect(() => {
     /* Adjust and play animations */
@@ -35,17 +21,17 @@ const WaterPark = ({ model, textures, actions }) => {
 
   useFrame((state) => {
     /* after curve is generated start following the path */
-    if (parrotPathCurve) {
+    if (curvePath) {
       const elapsedTime = state.clock.elapsedTime
 
       /* Adjust the speed  */
       const time = (elapsedTime * 0.1) % 1
 
       /* Position of the model */
-      const position = parrotPathCurve.curve.getPointAt(time)
+      const position = curvePath.curve.getPointAt(time)
 
       /* Look at the right direction  */
-      const position2 = parrotPathCurve.curve.getPointAt(
+      const position2 = curvePath.curve.getPointAt(
         Math.min(1, time + 0.00001) ?? position,
       )
 
@@ -151,7 +137,7 @@ const WaterPark = ({ model, textures, actions }) => {
 
   /* we can render curve if needed */
   // const renderCurve = () => {
-  //   return parrotPathCurve ? <mesh {...parrotPathCurve.mesh}></mesh> : null
+  //   return curvePath ? <mesh {...curvePath.mesh}></mesh> : null
   // }
 
   return (

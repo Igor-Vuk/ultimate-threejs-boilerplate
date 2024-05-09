@@ -11,6 +11,7 @@
     "plugin:import/recommended",
     "plugin:@react-three/recommended"
   ],
+  "ignorePatterns": ["dist"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -28,11 +29,16 @@
       }
     }
   },
+  "plugins": ["react-refresh"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "react/no-unknown-property": ["off", { "ignore": ["JSX"] }], // remove this rule when the bug in eslint is fixed
     "spaced-comment": 1,
-    "import/namespace": [2, { "allowComputed": true }]
+    "import/namespace": [2, { "allowComputed": true }],
+    "react-refresh/only-export-components": [
+      "warn",
+      { "allowConstantExport": true }
+    ]
   }
 }
