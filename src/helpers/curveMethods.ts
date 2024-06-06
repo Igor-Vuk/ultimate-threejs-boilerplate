@@ -1,6 +1,9 @@
 import * as THREE from "three"
+import { CurvePath, CurvePoints } from "../customHooks/customHooks.types"
 
-const createCurveFromJSON = (parrotPath) => {
+const createCurveFromJSON = (
+  parrotPath: CurvePoints,
+): Promise<THREE.CatmullRomCurve3> => {
   return new Promise((resolve) => {
     // Extract the vertices array from the JSON object
     const vertices = parrotPath.points
@@ -26,7 +29,9 @@ const createCurveFromJSON = (parrotPath) => {
   })
 }
 
-const getTubeFromCurve = (curve) => {
+const getTubeFromCurve = (
+  curve: THREE.CatmullRomCurve3,
+): Promise<THREE.Mesh> => {
   return new Promise((resolve) => {
     const geometry = new THREE.TubeGeometry(curve, 100, 0.05, 8, curve.closed)
     const material = new THREE.MeshBasicMaterial({
@@ -40,12 +45,14 @@ const getTubeFromCurve = (curve) => {
   })
 }
 
-const loadCurveFromJSON = async (parrotPath) => {
+const loadCurveFromJSON = async (
+  parrotPath: CurvePoints,
+): Promise<CurvePath> => {
   const curve = await createCurveFromJSON(parrotPath)
   const curveTubeMesh = await getTubeFromCurve(curve)
 
   const curveAndMesh = {
-    curve: curve,
+    curve,
     mesh: curveTubeMesh,
   }
 

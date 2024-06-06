@@ -2,8 +2,8 @@ import { Grid } from "@react-three/drei"
 import { GridControl } from "../helpers/leva"
 
 const GridHelper = () => {
-  const { ...gridConfig } = GridControl()
-  const { gridSize, ...config } = gridConfig.values
+  const grid = GridControl()
+  const { gridSize, ...config } = grid.values
 
   return <Grid args={gridSize} {...config} />
 }

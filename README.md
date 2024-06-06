@@ -8,11 +8,12 @@ This is a starting point with most useful features already implemented.
 2. run `npm run dev`
 3. project will automatically open in your browser
 4. to **view it on mobile**, after running `npm install` look for the **Network** address in the console.
-5. `npm run preview` to locally preview the production build
-6. run `npm run build` to build for deployment. This will also create `stats.html` file which is a **Rollup Visualizer** that we can open in any browser
+5. run `npm run build` to build for deployment. This will also create `stats.html` file which is a **Rollup Visualizer** that we can open in any browser
+6. `npm run preview` to locally preview the production build
 
 ## What does it include?
 
+- `typescript`
 - `three`, `react-three/drei` and `react-three-fiber` installed and configure
 - `vite` and `vite.config.js` file. `Rollup` is used for bundling
 - `leva` GUI installed and configured to be used with basic features needed for webgl. Make your scene perfect using leva controls for:
@@ -51,7 +52,7 @@ This is a starting point with most useful features already implemented.
 
 - `Suspense` for loading included with option to use **fallback** or **Loader** from drei
 
-- `eslint` and `.eslintrc` configured for linting the files
+- `eslint` and `.eslintrc.cjs` configured for linting the files
 - `prettier` and `prettierrc.json` configured for code formatting
 
   - recommended VSCode extensions are: **ESlin** and **Prettier ESLint** in order to make linting and formatting live while typing
@@ -60,6 +61,6 @@ This is a starting point with most useful features already implemented.
 
 ## What is the starting model being used?
 
-Starting model is a simple model made on **Blender** exported with Draco compression and imported in three.js. We are also loading basic **diffuse texture** and **environment map**
+Starting model is a simple model made in **Blender** exported with Draco compression and imported in three.js. We are also loading basic **diffuse texture** and **environment map**
 
 Model contains **morph(Shape key)** and normal **keyframes** animation

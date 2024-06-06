@@ -1,12 +1,13 @@
 import { useRef } from "react"
 import { AxesControl } from "../helpers/leva"
+import * as THREE from "three"
 
-const AxesHelper = () => {
-  const axesHelperRef = useRef(null)
+const AxesHelperComponent = () => {
+  const axesHelperRef = useRef<THREE.AxesHelper>(null!)
 
   AxesControl(axesHelperRef)
 
   return <axesHelper ref={axesHelperRef} />
 }
 
-export default AxesHelper
+export default AxesHelperComponent

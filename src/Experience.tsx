@@ -15,19 +15,19 @@ import AxesHelper from "./scene/AxesHelper"
 import PerformanceMonitor from "./scene/PerformanceMonitor"
 import GridHelper from "./scene/GridHelper"
 
-// import Fallback from "./models/Fallback"
+// import Fallback from "./models/Fallback"  /* use Fallback component on Suspense if needed */
 import Models from "./models/Models"
 
 export default function Experience() {
   const sceneRender = SceneRenderControl()
   const canvas = CanvasControl()
 
-  const [showLeva, setShowLeva] = useState(true) //  show or hide leva on first load
+  const [showLeva, setShowLeva] = useState<boolean>(true) //  show or hide leva on first load
 
   useEffect(() => {
     /*  add event listener to show or hide leva when "h" button is pressed */
-    const handleLeva = (event) => {
-      if (event.key == "h") {
+    const handleLeva = (event: KeyboardEvent) => {
+      if (event.key === "h") {
         setShowLeva((showLeva) => !showLeva)
       }
     }
@@ -35,30 +35,40 @@ export default function Experience() {
     return () => {
       window.removeEventListener("keydown", handleLeva)
     }
-  }, [showLeva])
+  }, [])
 
+  const {
+    orbit_controls,
+    performance_monitor,
+    directional_lights,
+    soft_shadows,
+    axes_helper,
+    grid_helper,
+    environment_map,
+  } = sceneRender.values
+
+  const { toneMapping, colorSpace } = canvas.values
   return (
     <>
       <Leva collapsed hidden={showLeva} />
       <Canvas
         shadows
         gl={{
-          outputColorSpace: THREE[canvas.values.colorSpace],
-          toneMapping: THREE[canvas.values.toneMapping],
+          toneMapping: THREE[toneMapping],
+          outputColorSpace: THREE[colorSpace],
         }}
       >
         <Camera />
-        {sceneRender.values.orbit_controls && <Controls />}
-        {sceneRender.values.performance_monitor && <PerformanceMonitor />}
-        {sceneRender.values.directional_lights && <DirectionalLight />}
-        {sceneRender.values.soft_shadows && <SoftShadowsModifier />}
-
-        {sceneRender.values.axes_helper && <AxesHelper />}
-        {sceneRender.values.grid_helper && <GridHelper />}
+        {orbit_controls && <Controls />}
+        {performance_monitor && <PerformanceMonitor />}
+        {directional_lights && <DirectionalLight />}
+        {soft_shadows && <SoftShadowsModifier />}
+        {axes_helper && <AxesHelper />}
+        {grid_helper && <GridHelper />}
 
         <Center>
           <Suspense fallback={null}>
-            {sceneRender.values.environment_map && <EnvironmentMap />}
+            {environment_map && <EnvironmentMap />}
             <Models />
           </Suspense>
         </Center>

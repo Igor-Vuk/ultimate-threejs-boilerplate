@@ -1,10 +1,11 @@
 import { useControls, button } from "leva"
 import { Color } from "three"
+import * as LevaTypes from "./leva.types.ts"
 
 /* ---------------------------------SceneRender-------------------------------------- */
 
-const SceneRenderControl = () => {
-  const defaultValues = {
+const SceneRenderControl = (): LevaTypes.SceneRenderControlType => {
+  const defaultValues: LevaTypes.SceneRenderControlDefaultValues = {
     orbit_controls: true,
     directional_lights: true,
     environment_map: true,
@@ -14,18 +15,7 @@ const SceneRenderControl = () => {
     grid_helper: false,
   }
 
-  const [
-    {
-      orbit_controls,
-      directional_lights,
-      environment_map,
-      soft_shadows,
-      axes_helper,
-      performance_monitor,
-      grid_helper,
-    },
-    set,
-  ] = useControls("scene_render", () => ({
+  const [returnedValues, set] = useControls("scene_render", () => ({
     ...defaultValues,
     reset: button(() => {
       set({
@@ -34,43 +24,42 @@ const SceneRenderControl = () => {
     }),
   }))
   return {
-    values: {
-      orbit_controls,
-      directional_lights,
-      environment_map,
-      soft_shadows,
-      axes_helper,
-      performance_monitor,
-      grid_helper,
-    },
+    values: returnedValues,
     set,
   }
 }
 
 /* ---------------------------------CanvasControl-------------------------------------- */
 
-const CanvasControl = () => {
-  const defaultValues = {
+const TONE_MAPPING_OPTIONS = [
+  "NoToneMapping",
+  "LinearToneMapping",
+  "ReinhardToneMapping",
+  "CineonToneMapping",
+  "ACESFilmicToneMapping",
+  "AgXToneMapping",
+  "CustomToneMapping",
+] as const
+
+const COLOR_SPACE_OPTIONS = ["SRGBColorSpace", "LinearSRGBColorSpace"] as const
+
+export type ToneMappingOptions = (typeof TONE_MAPPING_OPTIONS)[number]
+export type ColorSpaceOptions = (typeof COLOR_SPACE_OPTIONS)[number]
+
+const CanvasControl = (): LevaTypes.CanvasControlType => {
+  const defaultValues: LevaTypes.CanvasControlDefaultValues = {
     toneMapping: "ACESFilmicToneMapping",
     colorSpace: "SRGBColorSpace",
   }
 
-  const [{ toneMapping, colorSpace }, set] = useControls("canvas", () => ({
+  const [returnedValues, set] = useControls("canvas", () => ({
     toneMapping: {
-      value: "ACESFilmicToneMapping",
-      options: [
-        "NoToneMapping",
-        "LinearToneMapping",
-        "ReinhardToneMapping",
-        "CineonToneMapping",
-        "ACESFilmicToneMapping",
-        "AgXToneMapping",
-        "CustomToneMapping",
-      ],
+      value: defaultValues.toneMapping,
+      options: TONE_MAPPING_OPTIONS,
     },
     colorSpace: {
-      value: "SRGBColorSpace",
-      options: ["SRGBColorSpace", "LinearSRGBColorSpace"],
+      value: defaultValues.colorSpace,
+      options: COLOR_SPACE_OPTIONS,
     },
     reset: button(() => {
       set({
@@ -78,13 +67,22 @@ const CanvasControl = () => {
       })
     }),
   }))
-  return { values: { toneMapping, colorSpace }, set }
+
+  return {
+    values: {
+      toneMapping: returnedValues.toneMapping as ToneMappingOptions,
+      colorSpace: returnedValues.colorSpace as ColorSpaceOptions,
+    },
+    set,
+  }
 }
 
 /* ---------------------------------CameraControl--------------------------------- */
 
-const CameraControl = (cameraRef) => {
-  const defaultValues = {
+const CameraControl = (
+  cameraRef: LevaTypes.CameraControlRef,
+): LevaTypes.CameraControlType => {
+  const defaultValues: LevaTypes.CameraControlDefaultValues = {
     helper: false,
     fov: 45,
     position: {
@@ -100,49 +98,55 @@ const CameraControl = (cameraRef) => {
     near: 0.1,
     far: 200,
   }
-  const [{ helper }, set] = useControls("camera", () => ({
+  const [returnedValues, set] = useControls("camera", () => ({
     helper: defaultValues.helper,
     fov: {
       value: defaultValues.fov,
       min: 1,
       step: 1,
-      onChange: (value) => {
-        cameraRef.current.fov = value
-        cameraRef.current.updateProjectionMatrix()
+      onChange: (value: number) => {
+        if (cameraRef.current) {
+          cameraRef.current.fov = value
+          cameraRef.current.updateProjectionMatrix()
+        }
       },
     },
     position: {
-      x: defaultValues.position.x,
-      y: defaultValues.position.y,
-      z: defaultValues.position.z,
-      onChange: (value) => {
-        cameraRef.current.position.copy(value)
+      value: defaultValues.position,
+      onChange: (value: { x: number; y: number; z: number }) => {
+        if (cameraRef.current) {
+          cameraRef.current.position.copy(value)
+        }
       },
     },
     angle: {
-      x: defaultValues.angle.x,
-      y: defaultValues.angle.y,
-      z: defaultValues.angle.z,
-      onChange: (value) => {
-        cameraRef.current.up.copy(value)
+      value: defaultValues.angle,
+      onChange: (value: { x: number; y: number; z: number }) => {
+        if (cameraRef.current) {
+          cameraRef.current.up.copy(value)
+        }
       },
     },
     near: {
       value: defaultValues.near,
       min: 0.1,
       step: 1,
-      onChange: (value) => {
-        cameraRef.current.near = value
-        cameraRef.current.updateProjectionMatrix()
+      onChange: (value: number) => {
+        if (cameraRef.current) {
+          cameraRef.current.near = value
+          cameraRef.current.updateProjectionMatrix()
+        }
       },
     },
     far: {
       value: defaultValues.far,
       min: 1,
       step: 1,
-      onChange: (value) => {
-        cameraRef.current.far = value
-        cameraRef.current.updateProjectionMatrix()
+      onChange: (value: number) => {
+        if (cameraRef.current) {
+          cameraRef.current.far = value
+          cameraRef.current.updateProjectionMatrix()
+        }
       },
     },
     reset: button(() => {
@@ -151,21 +155,26 @@ const CameraControl = (cameraRef) => {
       })
     }),
   }))
-  return { values: { helper }, set }
+
+  return { values: returnedValues, set }
 }
 
 /* ----------------------------ControlsControl----------------------------- */
 
-const ControlsControl = (controlsRef) => {
-  const defaultValues = {
+const ControlsControl = (
+  controlsRef: LevaTypes.ControlsControlRef,
+): LevaTypes.ControlsControlType => {
+  const defaultValues: LevaTypes.ControlsControlDefaultValues = {
     damping: true,
   }
 
-  const [{ damping }, set] = useControls("orbit_controls", () => ({
+  const [, set] = useControls("orbit_controls", () => ({
     damping: {
       value: defaultValues.damping,
-      onChange: (value) => {
-        controlsRef.current.enableDamping = value
+      onChange: (value: boolean) => {
+        if (controlsRef.current) {
+          controlsRef.current.enableDamping = value
+        }
       },
     },
     reset: button(() => {
@@ -175,13 +184,15 @@ const ControlsControl = (controlsRef) => {
     }),
   }))
 
-  return { values: { damping }, set }
+  return { set }
 }
 
 /* ----------------------------DirectionalLightControl----------------------------- */
 
-const DirectionalLightControl = (directionalLightRef) => {
-  const defaultValues = {
+const DirectionalLightControl = (
+  directionalLightRef: LevaTypes.DirectionalLightControlRef,
+): LevaTypes.DirectionalLightControlType => {
+  const defaultValues: LevaTypes.DirectionalLightControlDefaultValues = {
     helper: false,
     castShadow: true,
     intensity: 2.8,
@@ -193,12 +204,14 @@ const DirectionalLightControl = (directionalLightRef) => {
     color: "#ffffff",
   }
 
-  const [{ helper }, set] = useControls("directional_lights", () => ({
+  const [returnedValues, set] = useControls("directional_lights", () => ({
     helper: defaultValues.helper,
     castShadow: {
       value: defaultValues.castShadow,
-      onChange: (value) => {
-        directionalLightRef.current.castShadow = value
+      onChange: (value: boolean) => {
+        if (directionalLightRef.current) {
+          directionalLightRef.current.castShadow = value
+        }
       },
     },
     intensity: {
@@ -206,22 +219,26 @@ const DirectionalLightControl = (directionalLightRef) => {
       min: 0,
       max: 10,
       step: 0.001,
-      onChange: (value) => {
-        directionalLightRef.current.intensity = value
+      onChange: (value: number) => {
+        if (directionalLightRef.current) {
+          directionalLightRef.current.intensity = value
+        }
       },
     },
     position: {
-      x: defaultValues.position.x,
-      y: defaultValues.position.y,
-      z: defaultValues.position.z,
-      onChange: (value) => {
-        directionalLightRef.current.position.copy(value)
+      value: defaultValues.position,
+      onChange: (value: { x: number; y: number; z: number }) => {
+        if (directionalLightRef.current) {
+          directionalLightRef.current.position.copy(value)
+        }
       },
     },
     color: {
       value: defaultValues.color,
-      onChange: (value) => {
-        directionalLightRef.current.color = new Color(value)
+      onChange: (value: string) => {
+        if (directionalLightRef.current) {
+          directionalLightRef.current.color = new Color(value)
+        }
       },
     },
     reset: button(() => {
@@ -230,13 +247,16 @@ const DirectionalLightControl = (directionalLightRef) => {
       })
     }),
   }))
-  return { values: { helper }, set }
+
+  return { values: returnedValues, set }
 }
 
 /* -------------------------------ShadowCameraControl-------------------------------- */
 
-const ShadowCameraControl = (directionalLightRef) => {
-  const defaultValues = {
+const ShadowCameraControl = (
+  directionalLightRef: LevaTypes.DirectionalLightControlRef,
+): LevaTypes.ShadowCameraControlType => {
+  const defaultValues: LevaTypes.ShadowCameraControlDefaultValues = {
     helper: false,
     near: 39,
     far: 85.8,
@@ -249,7 +269,7 @@ const ShadowCameraControl = (directionalLightRef) => {
     normalBias: 0,
   }
 
-  const [{ helper }, set] = useControls(
+  const [returnedValues, set] = useControls(
     "directional_lights_shadow_camera",
     () => ({
       helper: defaultValues.helper,
@@ -258,9 +278,11 @@ const ShadowCameraControl = (directionalLightRef) => {
         min: 1,
         max: 50,
         step: 0.1,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.camera.near = value
-          directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.camera.near = value
+            directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+          }
         },
       },
       far: {
@@ -268,54 +290,66 @@ const ShadowCameraControl = (directionalLightRef) => {
         min: 1,
         max: 100,
         step: 0.1,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.camera.far = value
-          directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.camera.far = value
+            directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+          }
         },
       },
       top: {
         value: defaultValues.top,
         min: 0,
         step: 0.1,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.camera.top = value
-          directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.camera.top = value
+            directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+          }
         },
       },
       bottom: {
         value: defaultValues.bottom,
         max: 0,
         step: 0.1,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.camera.bottom = value
-          directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.camera.bottom = value
+            directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+          }
         },
       },
       left: {
         value: defaultValues.left,
         max: 0,
         step: 0.1,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.camera.left = value
-          directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.camera.left = value
+            directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+          }
         },
       },
       right: {
         value: defaultValues.right,
         min: 0,
         step: 0.1,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.camera.right = value
-          directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.camera.right = value
+            directionalLightRef.current.shadow.camera.updateProjectionMatrix()
+          }
         },
       },
       quality: {
         value: defaultValues.quality,
         options: [128, 256, 512, 1024, 2048, 4096],
-        onChange: (value) => {
-          const mapSizeValue = { x: value, y: value }
-          directionalLightRef.current.shadow.mapSize.copy(mapSizeValue)
-          directionalLightRef.current.shadow.map?.setSize(value, value)
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            const mapSizeValue = { x: value, y: value }
+            directionalLightRef.current.shadow.mapSize.copy(mapSizeValue)
+            directionalLightRef.current.shadow.map?.setSize(value, value)
+          }
         },
       },
       bias: {
@@ -323,8 +357,10 @@ const ShadowCameraControl = (directionalLightRef) => {
         min: -0.05,
         max: 0.05,
         step: 0.001,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.bias = value
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.bias = value
+          }
         },
       },
       normalBias: {
@@ -332,8 +368,10 @@ const ShadowCameraControl = (directionalLightRef) => {
         min: -0.05,
         max: 0.05,
         step: 0.001,
-        onChange: (value) => {
-          directionalLightRef.current.shadow.normalBias = value
+        onChange: (value: number) => {
+          if (directionalLightRef.current) {
+            directionalLightRef.current.shadow.normalBias = value
+          }
         },
       },
       reset: button(() => {
@@ -343,18 +381,18 @@ const ShadowCameraControl = (directionalLightRef) => {
       }),
     }),
   )
-  return { values: { helper }, set }
+  return { values: returnedValues, set }
 }
 
 /* ------------------------------SoftShadowsControl-------------------------------- */
 
-const SoftShadowsControl = () => {
-  const defaultValues = {
+const SoftShadowsControl = (): LevaTypes.SoftShadowsControlType => {
+  const defaultValues: LevaTypes.SoftShadowsControlDefaultValues = {
     size: 3,
     focus: 0.2,
     samples: 10,
   }
-  const [{ size, focus, samples }, set] = useControls("soft_shadows", () => ({
+  const [returnedValues, set] = useControls("soft_shadows", () => ({
     size: { value: defaultValues.size, min: 0, max: 100, step: 1 },
     focus: { value: defaultValues.focus, min: 0, max: 2, step: 0.1 },
     samples: { value: defaultValues.samples, min: 1, max: 20, step: 1 },
@@ -365,13 +403,13 @@ const SoftShadowsControl = () => {
     }),
   }))
 
-  return { values: { size, focus, samples }, set }
+  return { values: returnedValues, set }
 }
 
 /* --------------------------------EnvironmentMapControl------------------------------- */
 
-const EnvironmentMapControl = () => {
-  const defaultValues = {
+const EnvironmentMapControl = (): LevaTypes.EnvironmentMapControlType => {
+  const defaultValues: LevaTypes.EnvironmentMapControlDefaultValues = {
     background: true,
     backgroundIntensity: 1.0,
     backgroundRotation: [0, Math.PI / 2, 0],
@@ -380,17 +418,7 @@ const EnvironmentMapControl = () => {
     environmentRotation: [0, Math.PI / 2, 0],
   }
 
-  const [
-    {
-      background,
-      backgroundIntensity,
-      backgroundRotation,
-      blur,
-      environmentIntensity,
-      environmentRotation,
-    },
-    set,
-  ] = useControls("environment_map", () => ({
+  const [returnedValues, set] = useControls("environment_map", () => ({
     background: defaultValues.background,
     backgroundIntensity: {
       value: defaultValues.backgroundIntensity,
@@ -419,22 +447,17 @@ const EnvironmentMapControl = () => {
     }),
   }))
   return {
-    values: {
-      background,
-      backgroundIntensity,
-      backgroundRotation,
-      blur,
-      environmentIntensity,
-      environmentRotation,
-    },
+    values: returnedValues,
     set,
   }
 }
 
 /* --------------------------------AxesControl------------------------------------ */
 
-const AxesControl = (axesHelperRef) => {
-  const defaultValues = {
+const AxesControl = (
+  axesHelperRef: LevaTypes.AxesControlRef,
+): LevaTypes.AxesControlType => {
+  const defaultValues: LevaTypes.AxesControlDefaultValues = {
     extend: 1,
   }
 
@@ -444,10 +467,12 @@ const AxesControl = (axesHelperRef) => {
       min: 1,
       max: 30,
       step: 1,
-      onChange: (value) => {
-        // we put the same value for x,y,z axis so we don't need to adjust every separately
-        const scaleValue = { x: value, y: value, z: value }
-        axesHelperRef.current.scale.copy(scaleValue)
+      onChange: (value: number) => {
+        if (axesHelperRef.current) {
+          // we put the same value for x,y,z axis so we don't need to adjust every separately
+          const scaleValue = { x: value, y: value, z: value }
+          axesHelperRef.current.scale.copy(scaleValue)
+        }
       },
     },
     reset: button(() => {
@@ -460,8 +485,8 @@ const AxesControl = (axesHelperRef) => {
 }
 /* --------------------------------GridControl------------------------------------ */
 
-const GridControl = () => {
-  const defaultValues = {
+const GridControl = (): LevaTypes.GridControlType => {
+  const defaultValues: LevaTypes.GridControlDefaultValues = {
     position: [0, 0, 0],
     gridSize: [5, 5],
     cellSize: 1,
@@ -476,23 +501,7 @@ const GridControl = () => {
     infiniteGrid: true,
   }
 
-  const [
-    {
-      position,
-      gridSize,
-      cellSize,
-      cellThickness,
-      cellColor,
-      sectionSize,
-      sectionThickness,
-      sectionColor,
-      fadeDistance,
-      fadeStrength,
-      followCamera,
-      infiniteGrid,
-    },
-    set,
-  ] = useControls("grid_helper", () => ({
+  const [returnedValues, set] = useControls("grid_helper", () => ({
     position: defaultValues.position,
     gridSize: defaultValues.gridSize,
     cellSize: { value: defaultValues.cellSize, min: 0, max: 10, step: 0.1 },
@@ -536,21 +545,9 @@ const GridControl = () => {
       })
     }),
   }))
+
   return {
-    values: {
-      position,
-      gridSize,
-      cellSize,
-      cellThickness,
-      cellColor,
-      sectionSize,
-      sectionThickness,
-      sectionColor,
-      fadeDistance,
-      fadeStrength,
-      followCamera,
-      infiniteGrid,
-    },
+    values: returnedValues,
     set,
   }
 }
