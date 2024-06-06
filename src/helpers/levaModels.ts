@@ -1,57 +1,55 @@
 import { useControls, button, folder } from "leva"
+import * as LevaModelsTypes from "./levaModels.types.ts"
 
 /* ------------------------------Flag Shader-------------------------------- */
 
-const FlagControl = () => {
-  const defaultValues = {
+const FlagControl = (): LevaModelsTypes.FlagControlType => {
+  const defaultValues: LevaModelsTypes.FlagControlDefaultValues = {
     frequencyX: 4.0,
     frequencyY: 1.5,
     amplitudeX: 0.01,
     amplitudeY: 0.01,
   }
-  const [{ frequencyX, frequencyY, amplitudeX, amplitudeY }, set] = useControls(
-    "models",
-    () => ({
-      flag: folder({
-        frequencyX: {
-          value: defaultValues.frequencyX,
-          min: 0,
-          max: 20,
-          step: 0.01,
-        },
-        frequencyY: {
-          value: defaultValues.frequencyY,
-          min: 0,
-          max: 20,
-          step: 0.01,
-        },
-        amplitudeX: {
-          value: defaultValues.amplitudeX,
-          min: 0,
-          max: 1,
-          step: 0.01,
-        },
-        amplitudeY: {
-          value: defaultValues.amplitudeY,
-          min: 0,
-          max: 1,
-          step: 0.01,
-        },
-        reset: button(() => {
-          set({
-            ...defaultValues,
-          })
-        }),
+  const [returnedValues, set] = useControls("models", () => ({
+    flag: folder({
+      frequencyX: {
+        value: defaultValues.frequencyX,
+        min: 0,
+        max: 20,
+        step: 0.01,
+      },
+      frequencyY: {
+        value: defaultValues.frequencyY,
+        min: 0,
+        max: 20,
+        step: 0.01,
+      },
+      amplitudeX: {
+        value: defaultValues.amplitudeX,
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+      amplitudeY: {
+        value: defaultValues.amplitudeY,
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+      reset: button(() => {
+        set({
+          ...defaultValues,
+        })
       }),
     }),
-  )
-  return { values: { frequencyX, frequencyY, amplitudeX, amplitudeY }, set }
+  }))
+  return { values: returnedValues, set }
 }
 
 /* ------------------------------WavePool Shader-------------------------------- */
 
-const WavePoolControl = () => {
-  const defaultValues = {
+const WavePoolControl = (): LevaModelsTypes.WavePoolControlType => {
+  const defaultValues: LevaModelsTypes.WavePoolControlDefaultValues = {
     bigWavesElevation: 0.31,
     bigWavesSpeed: 0.37,
     bigWavesFrequencyX: 1.28,
@@ -72,29 +70,7 @@ const WavePoolControl = () => {
     planeRotationZ: -0.28,
   }
 
-  const [
-    {
-      bigWavesElevation,
-      bigWavesSpeed,
-      bigWavesFrequencyX,
-      bigWavesFrequencyY,
-
-      smallWavesElevation,
-      smallWavesSpeed,
-      smallWavesFrequency,
-      smallWavesIterations,
-
-      depthColor,
-      surfaceColor,
-      uColorOffset,
-      uColorMultiplier,
-
-      planeRotationX,
-      planeRotationY,
-      planeRotationZ,
-    },
-    set,
-  ] = useControls("models", () => ({
+  const [returnedValues, set] = useControls("models", () => ({
     wave_pool: folder({
       bigWavesElevation: {
         value: defaultValues.bigWavesElevation,
@@ -183,26 +159,8 @@ const WavePoolControl = () => {
     }),
   }))
   return {
-    values: {
-      bigWavesElevation,
-      bigWavesSpeed,
-      bigWavesFrequencyX,
-      bigWavesFrequencyY,
-
-      smallWavesElevation,
-      smallWavesSpeed,
-      smallWavesFrequency,
-      smallWavesIterations,
-
-      depthColor,
-      surfaceColor,
-      uColorOffset,
-      uColorMultiplier,
-
-      planeRotationX,
-      planeRotationY,
-      planeRotationZ,
-    },
+    values: returnedValues,
+    set,
   }
 }
 

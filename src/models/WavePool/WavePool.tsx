@@ -1,17 +1,22 @@
+import { useRef } from "react"
+import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
 import { RigidBody, Physics } from "@react-three/rapier"
-import * as THREE from "three"
-import { useRef } from "react"
-import PropTypes from "prop-types"
 
+import { AssetProps, WavePoolUniforms } from "../models.types"
+
+// use the ?raw query parameter to import the contents of the GLSL files as strings in Vite
 import wavePoolVertexShader from "../../shaders/wavePool/vertex.vs.glsl"
 import wavePoolFragmentShader from "../../shaders/wavePool/fragment.fs.glsl"
 
-import { WavePoolControl } from "../../helpers/leva-models.js"
+import { WavePoolControl } from "../../helpers/levaModels.ts"
 
-const WavePool = ({ model, textures }) => {
-  const wavePoolMaterialRef = useRef(null)
+const WavePool = ({ model, textures }: AssetProps) => {
+  const wavePoolMaterialRef = useRef<THREE.ShaderMaterial & WavePoolUniforms>(
+    null!,
+  )
+
   const wavePool = WavePoolControl()
 
   /* --------------------- shader material ------------------------ */
@@ -46,14 +51,22 @@ const WavePool = ({ model, textures }) => {
   /* -------------------------------------------------------------- */
 
   useFrame((state /* delta */) => {
-    /* we can update attributes directly like this */
-    wavePoolMaterialRef.current.uTime = state.clock.elapsedTime
+    if (wavePoolMaterialRef.current) {
+      /* we can update attributes directly like this */
+      wavePoolMaterialRef.current.uTime = state.clock.elapsedTime
+    }
   })
+
+  /* We only have geometry property on Mesh so we need to check if we are dealing with the Mesh type */
+  const isMeshType = (mesh: THREE.Object3D): mesh is THREE.Mesh => {
+    return mesh instanceof THREE.Mesh
+  }
 
   const renderModel = () => {
     return model.scene.children.map((mesh) => {
       const collection = mesh.userData.collection
-      if (collection === "wave_pool") {
+
+      if (isMeshType(mesh) && collection === "wave_pool") {
         const defaultMeshProperties = {
           name: mesh.name,
           castShadow: true,
@@ -71,6 +84,7 @@ const WavePool = ({ model, textures }) => {
           </mesh>
         )
       }
+      return null
     })
   }
 
@@ -117,8 +131,3 @@ const WavePool = ({ model, textures }) => {
 }
 
 export default WavePool
-
-WavePool.propTypes = {
-  model: PropTypes.object.isRequired,
-  textures: PropTypes.object,
-}

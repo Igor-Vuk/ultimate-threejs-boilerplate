@@ -1,17 +1,18 @@
+import { useRef /* useEffect */ } from "react"
+import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
-import * as THREE from "three"
-import { useRef } from "react"
-import PropTypes from "prop-types"
+
+import { AssetProps, FlagUniforms } from "../models.types"
 
 import flagVertexShader from "../../shaders/flag/vertex.vs.glsl"
 import flagFragmentShader from "../../shaders/flag/fragment.fs.glsl"
 
-import { FlagControl } from "../../helpers/leva-models.js"
+import { FlagControl } from "../../helpers/levaModels.ts"
 
-const Flag = ({ model, textures }) => {
-  // const planeRef = useRef(null)
-  const flagMaterialRef = useRef(null)
+const Flag = ({ model, textures }: AssetProps) => {
+  // const planeRef = useRef<THREE.Mesh>(null!)
+  const flagMaterialRef = useRef<THREE.ShaderMaterial & FlagUniforms>(null!)
   const flag = FlagControl()
 
   /* --------------------- shader material ------------------------ */
@@ -39,27 +40,35 @@ const Flag = ({ model, textures }) => {
 
   /* Example hot so send attribute to vertex shader */
   // useEffect(() => {
-  //   const count = planeRef.current.geometry.attributes.position.count
-  //   const randoms = new Float32Array(count)
+  //   if (planeRef.current) {
+  //     const count = planeRef.current.geometry.attributes.position.count
+  //     const randoms = new Float32Array(count)
 
-  //   for (let i = 0; i < count; i++) {
-  //     randoms[i] = Math.random()
+  //     for (let i = 0; i < count; i++) {
+  //       randoms[i] = Math.random()
+  //     }
+
+  //     planeRef.current.geometry.setAttribute(
+  //       "aRandom",
+  //       new THREE.BufferAttribute(randoms, 1),
+  //     )
   //   }
-
-  //   planeRef.current.geometry.setAttribute(
-  //     "aRandom",
-  //     new THREE.BufferAttribute(randoms, 1),
-  //   )
   // }, [])
 
-  useFrame((state, delta) => {
-    flagMaterialRef.current.uTime += delta
+  useFrame((_, delta) => {
+    if (flagMaterialRef.current) {
+      flagMaterialRef.current.uTime += delta
+    }
   })
+
+  const isMeshType = (mesh: THREE.Object3D): mesh is THREE.Mesh => {
+    return mesh instanceof THREE.Mesh
+  }
 
   const renderModel = () => {
     return model.scene.children.map((mesh) => {
       const collection = mesh.userData.collection
-      if (collection === "flag") {
+      if (isMeshType(mesh) && collection === "flag") {
         const defaultMeshProperties = {
           // ref: planeRef,
           name: mesh.name,
@@ -83,6 +92,7 @@ const Flag = ({ model, textures }) => {
           </mesh>
         )
       }
+      return null // Ensure non-flag meshes are handled correctly
     })
   }
 
@@ -90,8 +100,3 @@ const Flag = ({ model, textures }) => {
 }
 
 export default Flag
-
-Flag.propTypes = {
-  model: PropTypes.object.isRequired,
-  textures: PropTypes.object,
-}

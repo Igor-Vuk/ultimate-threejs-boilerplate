@@ -1,9 +1,10 @@
 import { useRef } from "react"
 import { OrbitControls } from "@react-three/drei"
-import { ControlsControl } from "../helpers/leva.js"
+import { ControlsControl } from "../helpers/leva"
+import type { OrbitControls as ThreeOrbitControls } from "three-stdlib"
 
 const Controls = () => {
-  const controlsRef = useRef(null)
+  const controlsRef = useRef<ThreeOrbitControls>(null!)
 
   ControlsControl(controlsRef)
 
