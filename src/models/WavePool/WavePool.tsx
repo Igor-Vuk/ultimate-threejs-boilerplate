@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, FC } from "react"
 import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
@@ -12,7 +12,7 @@ import wavePoolFragmentShader from "../../shaders/wavePool/fragment.fs.glsl"
 
 import { WavePoolControl } from "../../helpers/levaModels.ts"
 
-const WavePool = ({ model, textures }: AssetProps) => {
+const WavePool: FC<AssetProps> = ({ model, textures }) => {
   const wavePoolMaterialRef = useRef<THREE.ShaderMaterial & WavePoolUniforms>(
     null!,
   )

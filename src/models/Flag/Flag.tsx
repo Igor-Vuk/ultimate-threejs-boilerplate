@@ -1,4 +1,4 @@
-import { useRef /* useEffect */ } from "react"
+import { useRef, FC /* useEffect */ } from "react"
 import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
@@ -10,7 +10,7 @@ import flagFragmentShader from "../../shaders/flag/fragment.fs.glsl"
 
 import { FlagControl } from "../../helpers/levaModels.ts"
 
-const Flag = ({ model, textures }: AssetProps) => {
+const Flag: FC<AssetProps> = ({ model, textures }) => {
   // const planeRef = useRef<THREE.Mesh>(null!)
   const flagMaterialRef = useRef<THREE.ShaderMaterial & FlagUniforms>(null!)
   const flag = FlagControl()

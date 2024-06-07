@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, FC } from "react"
 import * as THREE from "three"
 import { useFrame } from "@react-three/fiber"
 import { AssetProps } from "../models.types"
@@ -6,7 +6,7 @@ import { AssetProps } from "../models.types"
 import useJsonCurve from "../../customHooks/useJsonCurve"
 import parrotPath from "../../data/parrotPath.json"
 
-const WaterPark = ({ model, textures, actions }: AssetProps) => {
+const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   /* ----------------------ref--------------------- */
   const parrotRef = useRef<THREE.Group>(null!)
 
