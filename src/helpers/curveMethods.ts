@@ -12,7 +12,8 @@ const createCurveFromJSON = (
     const points = []
 
     // Iterate over the vertices and push THREE.Vector3 instances to the points array
-    for (let i = 0; i < vertices.length; i += 3) {
+    // we can reduce the number of vertices being pushed by putting i += 3
+    for (let i = 0; i < vertices.length; i++) {
       const x = vertices[i].x
       const y = vertices[i].y
       const z = vertices[i].z
