@@ -1,12 +1,15 @@
 import * as THREE from "three"
-import { CurvePath, CurvePoints } from "../customHooks/customHooks.types"
+import { CurvePath, CurveProps } from "../customHooks/customHooks.types"
 
-const createCurveFromJSON = (
-  parrotPath: CurvePoints,
-): Promise<THREE.CatmullRomCurve3> => {
+const createCurveFromJSON = ({
+  curvePoints,
+  curveClosed = false,
+  curveType = "centripetal",
+  curveTension = 0.5,
+}: CurveProps): Promise<THREE.CatmullRomCurve3> => {
   return new Promise((resolve) => {
     // Extract the vertices array from the JSON object
-    const vertices = parrotPath.points
+    const vertices = curvePoints.points
 
     // Create an empty array to store THREE.Vector3 instances
     const points = []
@@ -24,7 +27,13 @@ const createCurveFromJSON = (
     const curve = new THREE.CatmullRomCurve3(points)
 
     // choose if it's closed or open curve
-    curve.closed = parrotPath.closed
+    curve.closed = curveClosed
+
+    // choose curveType. Default is "centripetal". It can also be "chordal" and "catmullrom".
+    curve.curveType = curveType
+
+    // default is 0.5. When curveType is "catmullrom", defines "catmullrom's" tension.
+    curve.tension = curveTension
 
     resolve(curve)
   })
@@ -32,12 +41,25 @@ const createCurveFromJSON = (
 
 const getTubeFromCurve = (
   curve: THREE.CatmullRomCurve3,
+  {
+    tubeTubularSegments = 100,
+    tubeRadius = 0.05,
+    tubeRadialSegments = 8,
+    tubeClosed = true,
+    tubeColor = 0xffffff,
+  }: CurveProps,
 ): Promise<THREE.Mesh> => {
   return new Promise((resolve) => {
-    const geometry = new THREE.TubeGeometry(curve, 100, 0.05, 8, curve.closed)
+    const geometry = new THREE.TubeGeometry(
+      curve,
+      tubeTubularSegments,
+      tubeRadius,
+      tubeRadialSegments,
+      tubeClosed,
+    )
     const material = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true,
+      color: tubeColor,
+      wireframe: false,
       side: THREE.DoubleSide,
     })
     const mesh = new THREE.Mesh(geometry, material)
@@ -47,10 +69,10 @@ const getTubeFromCurve = (
 }
 
 const loadCurveFromJSON = async (
-  parrotPath: CurvePoints,
+  curveProps: CurveProps,
 ): Promise<CurvePath> => {
-  const curve = await createCurveFromJSON(parrotPath)
-  const curveTubeMesh = await getTubeFromCurve(curve)
+  const curve = await createCurveFromJSON(curveProps)
+  const curveTubeMesh = await getTubeFromCurve(curve, curveProps)
 
   const curveAndMesh = {
     curve,

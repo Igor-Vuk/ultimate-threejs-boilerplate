@@ -10,7 +10,15 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   /* ----------------------ref--------------------- */
   const parrotRef = useRef<THREE.Group>(null!)
 
-  const { curvePath } = useJsonCurve(parrotPath)
+  const { curvePath } = useJsonCurve({
+    curvePoints: parrotPath,
+    curveClosed: true,
+    tubeTubularSegments: 100,
+    tubeRadius: 0.05,
+    tubeRadialSegments: 4,
+    tubeClosed: true,
+    tubeColor: 0x000000,
+  })
 
   useEffect(() => {
     /* Adjust and play animations */
@@ -153,14 +161,14 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   }
 
   /* we can render curve if needed */
-  /*  const renderCurve = () => {
+  /* const renderCurve = () => {
     return curvePath ? <primitive object={curvePath.mesh} /> : null
   } */
 
   return (
     <>
       {renderModel()}
-      {/*  {renderCurve()} */}
+      {/* {renderCurve()} */}
     </>
   )
 }
