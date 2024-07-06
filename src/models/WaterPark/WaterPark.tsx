@@ -161,9 +161,10 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   }
 
   /* we can render curve if needed */
+
   /* const renderCurve = () => {
     return curvePath ? <primitive object={curvePath.mesh} /> : null
-  } */
+  }  */
 
   return (
     <>
