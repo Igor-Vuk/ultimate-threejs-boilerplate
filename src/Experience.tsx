@@ -65,10 +65,14 @@ export default function Experience() {
         {soft_shadows && <SoftShadowsModifier />}
         {axes_helper && <AxesHelper />}
         {grid_helper && <GridHelper />}
+        {environment_map && (
+          <Suspense fallback={null}>
+            <EnvironmentMap />
+          </Suspense>
+        )}
 
         <Center>
           <Suspense fallback={null}>
-            {environment_map && <EnvironmentMap />}
             <Models />
           </Suspense>
         </Center>
