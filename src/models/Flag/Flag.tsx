@@ -1,4 +1,4 @@
-import { useRef, FC /* useEffect */ } from "react"
+import { useRef, FC, useEffect } from "react"
 import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
@@ -35,6 +35,13 @@ const Flag: FC<AssetProps> = ({ model, textures }) => {
   )
 
   extend({ FlagMaterial })
+
+  /* shaderMaterial is initialized before adjustTexture is run  so we need to update the value */
+  useEffect(() => {
+    if (flagMaterialRef.current) {
+      flagMaterialRef.current.uniforms.uTexture.value = textures.map
+    }
+  }, [textures])
 
   /* -------------------------------------------------------------- */
 

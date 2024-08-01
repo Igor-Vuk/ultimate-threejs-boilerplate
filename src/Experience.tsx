@@ -1,22 +1,30 @@
-import { Center } from "@react-three/drei"
-import { Suspense, useEffect, useState } from "react"
-import { Canvas } from "@react-three/fiber"
+import { Suspense, useEffect, useState, lazy } from "react"
+import { Canvas, useLoader } from "@react-three/fiber"
+import { RGBELoader } from "three-stdlib"
+import { Center, useGLTF, useTexture } from "@react-three/drei"
 import * as THREE from "three"
 import { Leva } from "leva"
+import assetsPath from "./data/assetsPath.json"
 
+// import Fallback from "./models/Fallback"  /* use Fallback component on Suspense if needed */
 import { CanvasControl, SceneRenderControl } from "./helpers/leva"
-
 import Camera from "./scene/Camera"
 import Controls from "./scene/Controls"
 import DirectionalLight from "./scene/DirectionalLight"
-import EnvironmentMap from "./scene/EnvironmentMap"
 import SoftShadowsModifier from "./scene/SoftShadowsModifier"
 import AxesHelper from "./scene/AxesHelper"
 import PerformanceMonitor from "./scene/PerformanceMonitor"
 import GridHelper from "./scene/GridHelper"
 
-// import Fallback from "./models/Fallback"  /* use Fallback component on Suspense if needed */
-import Models from "./models/Models"
+/* By lazy loading we are separating bundles that load to the browser */
+const EnvironmentMap = lazy(() => import("./scene/EnvironmentMap"))
+const Models = lazy(() => import("./models/Models"))
+
+/* If we have for example map and aoMap for the same object we need to preload them separately */
+useLoader.preload(RGBELoader, assetsPath.environmentMapFiles)
+useGLTF.preload(assetsPath.modelPath)
+useTexture.preload(assetsPath.bakedTexturePath.map)
+useTexture.preload(assetsPath.flagTexturePath.map)
 
 export default function Experience() {
   const sceneRender = SceneRenderControl()

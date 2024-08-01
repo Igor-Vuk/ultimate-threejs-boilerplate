@@ -5,30 +5,32 @@ import { AssetProps } from "./models.types"
 import WaterPark from "./WaterPark/WaterPark"
 import Flag from "./Flag/Flag"
 import WavePool from "./WavePool/WavePool"
+import assetsPath from "../data/assetsPath.json"
 
 const Models = () => {
-  /* -----------------------------Files------------------------------- */
-  const modelFiles = useGLTF("/models/water_park-working_version.glb")
-  const bakedTexture = useTexture({
-    map: "/textures/baked-flat-wave-pool_DIFFUSE_min.jpg",
-    // aoMap:
-    //   "./textures/baked-flat-no-specular_AO.jpg" /* example how to use multiple textures */,
-  })
-  const flagTexture = useTexture({
-    map: "/textures/water-park-logo.jpg",
-  })
-  /* ----------------------------Textures---------------------------------- */
-
   // we need to flip textures in order to align them
   const adjustTexture = (...texturesArray: Record<string, THREE.Texture>[]) => {
-    texturesArray.forEach((textures) => {
-      Object.values(textures).forEach((texture) => {
-        texture.flipY = false
+    if (texturesArray.length > 0) {
+      texturesArray.forEach((textures) => {
+        Object.values(textures).forEach((texture) => {
+          texture.flipY = false
+          /* Remember that no color Textures(normal maps, roughness...) should use NoColorSpace and most .hdr/.exr LinearSRGBColorSpace*/
+          texture.colorSpace = THREE.SRGBColorSpace
+        })
       })
-    })
+    }
   }
 
-  adjustTexture(bakedTexture, flagTexture)
+  /* -----------------------------Files------------------------------- */
+  const modelFiles = useGLTF(assetsPath.modelPath)
+  const bakedTexture = useTexture(assetsPath.bakedTexturePath, (texture) => {
+    adjustTexture(texture)
+  })
+  const flagTexture = useTexture(assetsPath.flagTexturePath, (texture) => {
+    adjustTexture(texture)
+  })
+  /* to load multiple maps add them to json */
+
   /* ------------------------Animations------------------------------ */
 
   const group = useRef<THREE.Group>(null!)
@@ -52,13 +54,11 @@ const Models = () => {
   }
 
   return (
-    <>
-      <group ref={group} dispose={null}>
-        <WaterPark {...waterParkAssets} />
-        <Flag {...flagAssets} />
-        <WavePool {...wavePoolAssets} />
-      </group>
-    </>
+    <group ref={group} dispose={null}>
+      <WaterPark {...waterParkAssets} />
+      <Flag {...flagAssets} />
+      <WavePool {...wavePoolAssets} />
+    </group>
   )
 }
 

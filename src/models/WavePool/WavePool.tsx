@@ -1,4 +1,4 @@
-import { useRef, FC } from "react"
+import { useRef, FC, Suspense } from "react"
 import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
@@ -118,15 +118,18 @@ const WavePool: FC<AssetProps> = ({ model, textures }) => {
   }
 
   return (
-    <Physics debug={false}>
-      {renderModel()}
-      <RigidBody type="fixed" colliders="hull">
-        {renderWavePoolSurface()}
-      </RigidBody>
-      <RigidBody type="dynamic" colliders="trimesh">
-        {renderTorus()}
-      </RigidBody>
-    </Physics>
+    <Suspense>
+      {/*   Physics component relies on lazily initiating Rapier and needs to be wrapped in <Suspense /> */}
+      <Physics debug={false}>
+        {renderModel()}
+        <RigidBody type="fixed" colliders="hull">
+          {renderWavePoolSurface()}
+        </RigidBody>
+        <RigidBody type="dynamic" colliders="trimesh">
+          {renderTorus()}
+        </RigidBody>
+      </Physics>
+    </Suspense>
   )
 }
 

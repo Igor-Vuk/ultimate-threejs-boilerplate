@@ -1,13 +1,6 @@
 import { Environment } from "@react-three/drei"
 import { EnvironmentMapControl } from "../helpers/leva"
-import { RGBELoader } from "three-stdlib"
-import { useLoader } from "@react-three/fiber"
-
-const environmentMapFiles =
-  "/environmentMaps/kloofendal_48d_partly_cloudy_puresky_1k.hdr"
-
-// Preload the environment map
-useLoader.preload(RGBELoader, environmentMapFiles)
+import assetsPath from "../data/assetsPath.json"
 
 const EnvironmentMap = () => {
   const environmentMap = EnvironmentMapControl()
@@ -20,7 +13,7 @@ const EnvironmentMap = () => {
       backgroundBlurriness={environmentMap.values.blur}
       environmentIntensity={environmentMap.values.environmentIntensity}
       environmentRotation={environmentMap.values.environmentRotation}
-      files={environmentMapFiles}
+      files={assetsPath.environmentMapFiles}
     />
   )
 }

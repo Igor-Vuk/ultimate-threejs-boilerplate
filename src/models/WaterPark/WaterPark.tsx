@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC } from "react"
+import { useRef, useEffect, FC, useMemo } from "react"
 import * as THREE from "three"
 import { useFrame } from "@react-three/fiber"
 import { AssetProps } from "../models.types"
@@ -10,15 +10,19 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   /* ----------------------ref--------------------- */
   const parrotRef = useRef<THREE.Group>(null!)
 
-  const { curvePath } = useJsonCurve({
-    curvePoints: parrotPath,
-    curveClosed: true,
-    tubeTubularSegments: 100,
-    tubeRadius: 0.05,
-    tubeRadialSegments: 4,
-    tubeClosed: true,
-    tubeColor: 0x000000,
-  })
+  const curveProps = useMemo(
+    () => ({
+      curvePoints: parrotPath,
+      curveClosed: true,
+      tubeTubularSegments: 100,
+      tubeRadius: 0.05,
+      tubeRadialSegments: 4,
+      tubeClosed: true,
+      tubeColor: 0x000000,
+    }),
+    [],
+  )
+  const { curvePath } = useJsonCurve(curveProps)
 
   useEffect(() => {
     /* Adjust and play animations */
@@ -40,10 +44,10 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
       /* Position of the model */
       const position = curvePath.curve.getPointAt(time)
 
+      const delta = 0.0001
+      const nextTime = (time + delta) % 1
       /* Look at the right direction  */
-      const position2 = curvePath.curve.getPointAt(
-        Math.min(1, time + 0.00001) ?? position,
-      )
+      const position2 = curvePath.curve.getPointAt(nextTime)
 
       parrotRef.current.position.copy(position)
       parrotRef.current.lookAt(position2)

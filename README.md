@@ -43,6 +43,7 @@ This is a starting point with most useful features already implemented.
   - **environment map loading**
   - **action, morph, skinned animation loading** - just play different type of animations
   - **curve loading and follow path** - by loading `.json` file with vertices coordinate and calling the `curveMethod` function we can load curves as a mesh or make object follow them (example included)
+  - **assets preloading** - assets like model, texture, hdr... are preloaded so that app starts quicker
 
 - `Custom shaders loading` - create your own custom shaders. Ability to load `.glsl` files is added to vite. Basic fragment and vertex shader example is added and loaded using `shaderMaterial` from drei for ease of use with react components. Hot reload for fragment and vertex shader files is also implemented.
 

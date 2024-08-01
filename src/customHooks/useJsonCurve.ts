@@ -19,6 +19,9 @@ const useJsonCurve = (
       }
     }
     loadCurve()
+    /* This useEffect will run only if curveProps changes. We wrapped curveProps in useMemo because if we don't since its an object,
+    even though the values are not changed on rerender, the reference is, which will make useEffect run again and update state in
+    endless loop */
   }, [curveProps])
 
   return { curvePath }
