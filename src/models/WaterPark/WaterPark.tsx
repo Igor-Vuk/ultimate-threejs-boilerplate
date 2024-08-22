@@ -33,6 +33,38 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
     }
   }, [actions])
 
+  /* ----------------------------------------
+  Example of manually calculates and applies the rotation using a 
+  matrix and quaternion, ensuring consistent orientation, in case lookAt is not working as it should
+  ------------------- */
+
+  // Memoize the lookAtMatrix and rotation objects
+  //  const lookAtMatrix = useMemo(() => new THREE.Matrix4(), [])
+  //  const rotation = useMemo(() => new THREE.Euler(), [])
+
+  // useFrame((state) => {
+  //   if (curvePath && parrotRef.current) {
+  //     const elapsedTime = state.clock.elapsedTime
+  //     const time = (elapsedTime * 0.1) % 1
+
+  //     // Get current and next positions on the curve
+  //     const position = curvePath.curve.getPointAt(time)
+  //     const delta = 0.0001
+  //     const nextTime = (time + delta) % 1
+  //     const nextPosition = curvePath.curve.getPointAt(nextTime)
+
+  //     // Apply position to the parrot
+  //     parrotRef.current.position.copy(position)
+
+  //     // Calculate and apply the quaternion to rotate the parrot so it faces the direction
+  //     lookAtMatrix.lookAt(nextPosition, position, parrotRef.current.up)
+
+  //     rotation.setFromRotationMatrix(lookAtMatrix)
+  //     parrotRef.current.rotation.copy(rotation)
+  //   }
+  // })
+  /* ------------------------------------------------------------------------------- */
+
   useFrame((state) => {
     /* after curve is generated start following the path */
     if (curvePath && parrotRef.current) {
