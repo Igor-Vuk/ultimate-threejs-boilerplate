@@ -1,10 +1,10 @@
 import { useRef, useEffect, FC, useMemo } from "react"
 import * as THREE from "three"
 import { useFrame } from "@react-three/fiber"
-import { AssetProps } from "../models.types"
+import { AssetProps } from "../canvasComponents.types"
 
-import useJsonCurve from "../../customHooks/useJsonCurve"
-import parrotPath from "../../data/parrotPath.json"
+import useJsonCurve from "../../../customHooks/useJsonCurve"
+import parrotPath from "../../../data/parrotPath.json"
 
 const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   /* ----------------------ref--------------------- */

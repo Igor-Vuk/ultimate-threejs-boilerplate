@@ -1,6 +1,9 @@
 import * as THREE from "three"
 import { ReactThreeFiber } from "@react-three/fiber"
-import { WavePoolUniforms, FlagUniforms } from "../models/models.types"
+import {
+  WavePoolUniforms,
+  FlagUniforms,
+} from "../contentComponents/canvasComponents/canvasComponents.types"
 
 declare global {
   namespace JSX {

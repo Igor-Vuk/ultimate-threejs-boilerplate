@@ -3,12 +3,12 @@ import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
 
-import { AssetProps, FlagUniforms } from "../models.types"
+import { AssetProps, FlagUniforms } from "../canvasComponents.types.ts"
 
-import flagVertexShader from "../../shaders/flag/vertex.vs.glsl"
-import flagFragmentShader from "../../shaders/flag/fragment.fs.glsl"
+import flagVertexShader from "../../../shaders/flag/vertex.vs.glsl"
+import flagFragmentShader from "../../../shaders/flag/fragment.fs.glsl"
 
-import { FlagControl } from "../../helpers/levaModels.ts"
+import { FlagControl } from "../../../helpers/levaModels.ts"
 
 const Flag: FC<AssetProps> = ({ model, textures }) => {
   // const planeRef = useRef<THREE.Mesh>(null!)

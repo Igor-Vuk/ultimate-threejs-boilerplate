@@ -1,11 +1,11 @@
 import { useRef } from "react"
 import { useGLTF, useTexture, useAnimations } from "@react-three/drei"
 import * as THREE from "three"
-import { AssetProps } from "./models.types"
+import { AssetProps } from "./canvasComponents.types"
 import WaterPark from "./WaterPark/WaterPark"
 import Flag from "./Flag/Flag"
 import WavePool from "./WavePool/WavePool"
-import assetsPath from "../data/assetsPath.json"
+import assetsPath from "../../data/assetsPath.json"
 
 const Models = () => {
   // we need to flip textures in order to align them

@@ -4,13 +4,13 @@ import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
 import { RigidBody, Physics } from "@react-three/rapier"
 
-import { AssetProps, WavePoolUniforms } from "../models.types"
+import { AssetProps, WavePoolUniforms } from "../canvasComponents.types.ts"
 
 // use the ?raw query parameter to import the contents of the GLSL files as strings in Vite
-import wavePoolVertexShader from "../../shaders/wavePool/vertex.vs.glsl"
-import wavePoolFragmentShader from "../../shaders/wavePool/fragment.fs.glsl"
+import wavePoolVertexShader from "../../../shaders/wavePool/vertex.vs.glsl"
+import wavePoolFragmentShader from "../../../shaders/wavePool/fragment.fs.glsl"
 
-import { WavePoolControl } from "../../helpers/levaModels.ts"
+import { WavePoolControl } from "../../../helpers/levaModels.ts"
 
 const WavePool: FC<AssetProps> = ({ model, textures }) => {
   const wavePoolMaterialRef = useRef<THREE.ShaderMaterial & WavePoolUniforms>(

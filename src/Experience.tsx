@@ -6,19 +6,19 @@ import * as THREE from "three"
 import { Leva } from "leva"
 import assetsPath from "./data/assetsPath.json"
 
-// import Fallback from "./models/Fallback"  /* use Fallback component on Suspense if needed */
+// import Fallback from "./contentComponents/canvasComponents/fallback/Fallback" /* use Fallback component on Suspense if needed */
 import { CanvasControl, SceneRenderControl } from "./helpers/leva"
-import Camera from "./scene/Camera"
-import Controls from "./scene/Controls"
-import DirectionalLight from "./scene/DirectionalLight"
-import SoftShadowsModifier from "./scene/SoftShadowsModifier"
-import AxesHelper from "./scene/AxesHelper"
-import PerformanceMonitor from "./scene/PerformanceMonitor"
-import GridHelper from "./scene/GridHelper"
+import Camera from "./sceneComponents/Camera"
+import Controls from "./sceneComponents/Controls"
+import DirectionalLight from "./sceneComponents/DirectionalLight"
+import SoftShadowsModifier from "./sceneComponents/SoftShadowsModifier"
+import AxesHelper from "./sceneComponents/AxesHelper"
+import PerformanceMonitor from "./sceneComponents/PerformanceMonitor"
+import GridHelper from "./sceneComponents/GridHelper"
 
 /* By lazy loading we are separating bundles that load to the browser */
-const EnvironmentMap = lazy(() => import("./scene/EnvironmentMap"))
-const Models = lazy(() => import("./models/Models"))
+const EnvironmentMap = lazy(() => import("./sceneComponents/EnvironmentMap"))
+const Models = lazy(() => import("./contentComponents/canvasComponents/Models"))
 
 /* If we have for example map and aoMap for the same object we need to preload them separately */
 useLoader.preload(RGBELoader, assetsPath.environmentMapFiles)
