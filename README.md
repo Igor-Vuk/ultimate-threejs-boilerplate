@@ -58,7 +58,7 @@ This is a starting point with most useful features already implemented.
 
   - recommended VSCode extensions are: **ESlin** and **Prettier ESLint** in order to make linting and formatting live while typing
 
-- `style.css` file for styling
+- `index.css` file for styling
 
 ## What is the starting model being used?
 
