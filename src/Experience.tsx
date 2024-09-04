@@ -1,7 +1,6 @@
 import { Suspense, useEffect, useState, lazy } from "react"
-import { Canvas, useLoader } from "@react-three/fiber"
-import { RGBELoader } from "three-stdlib"
-import { Center, useGLTF, useTexture } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber"
+import { Center, useGLTF, useTexture, useEnvironment } from "@react-three/drei"
 import * as THREE from "three"
 import { Leva } from "leva"
 import assetsPath from "./data/assetsPath.json"
@@ -21,7 +20,7 @@ const EnvironmentMap = lazy(() => import("./sceneComponents/EnvironmentMap"))
 const Models = lazy(() => import("./contentComponents/canvasComponents/Models"))
 
 /* If we have for example map and aoMap for the same object we need to preload them separately */
-useLoader.preload(RGBELoader, assetsPath.environmentMapFiles)
+useEnvironment.preload({ files: assetsPath.environmentMapFiles })
 useGLTF.preload(assetsPath.modelPath)
 useTexture.preload(assetsPath.bakedTexturePath.map)
 useTexture.preload(assetsPath.flagTexturePath.map)
