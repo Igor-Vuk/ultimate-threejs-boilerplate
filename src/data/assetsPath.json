@@ -1,10 +1,6 @@
 {
   "environmentMapFiles": "/environmentMaps/kloofendal_48d_partly_cloudy_puresky_1k.hdr",
   "modelPath": "/models/water_park-working_version.glb",
-  "bakedTexturePath": {
-    "map": "/textures/baked-flat-wave-pool_DIFFUSE_original.jpg"
-  },
-  "flagTexturePath": {
-    "map": "/textures/water-park-logo.jpg"
-  }
+  "bakedTexturePath": ["/textures/baked-flat-wave-pool_DIFFUSE_original.jpg"],
+  "flagTexturePath": ["/textures/water-park-logo.jpg"]
 }

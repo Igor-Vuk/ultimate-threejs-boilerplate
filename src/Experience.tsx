@@ -22,8 +22,8 @@ const Models = lazy(() => import("./contentComponents/canvasComponents/Models"))
 /* If we have for example map and aoMap for the same object we need to preload them separately */
 useEnvironment.preload({ files: assetsPath.environmentMapFiles })
 useGLTF.preload(assetsPath.modelPath)
-useTexture.preload(assetsPath.bakedTexturePath.map)
-useTexture.preload(assetsPath.flagTexturePath.map)
+useTexture.preload(assetsPath.bakedTexturePath)
+useTexture.preload(assetsPath.flagTexturePath)
 
 export default function Experience() {
   const sceneRender = SceneRenderControl()
@@ -54,7 +54,7 @@ export default function Experience() {
     environment_map,
   } = sceneRender.values
 
-  const { toneMapping, colorSpace } = canvas.values
+  const { toneMapping, colorSpace, toneMappingExposure } = canvas.values
   return (
     <>
       <Leva collapsed hidden={showLeva} />
@@ -63,6 +63,7 @@ export default function Experience() {
         gl={{
           toneMapping: THREE[toneMapping],
           outputColorSpace: THREE[colorSpace],
+          toneMappingExposure: toneMappingExposure, // default is 1.0. It doesn't work with "NoToneMapping"
         }}
       >
         <Camera />

@@ -3,7 +3,7 @@ import * as THREE from "three"
 
 export type AssetProps = {
   model: GLTF
-  textures: Record<string, THREE.Texture>
+  textures: THREE.Texture[]
   actions?: Record<string, THREE.AnimationAction | null>
 }
 

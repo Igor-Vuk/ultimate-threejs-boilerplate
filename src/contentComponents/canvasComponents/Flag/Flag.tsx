@@ -28,7 +28,7 @@ const Flag: FC<AssetProps> = ({ model, textures }) => {
         flag.values.amplitudeY,
       ),
       uTime: 0,
-      uTexture: textures.map,
+      uTexture: textures[0], // textures are in same order as they are in assetsPath file
     },
     flagVertexShader,
     flagFragmentShader,
@@ -39,7 +39,7 @@ const Flag: FC<AssetProps> = ({ model, textures }) => {
   /* shaderMaterial is initialized before adjustTexture is run  so we need to update the value */
   useEffect(() => {
     if (flagMaterialRef.current) {
-      flagMaterialRef.current.uniforms.uTexture.value = textures.map
+      flagMaterialRef.current.uniforms.uTexture.value = textures[0]
     }
   }, [textures])
 

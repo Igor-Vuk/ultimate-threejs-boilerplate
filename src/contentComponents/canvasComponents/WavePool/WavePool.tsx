@@ -1,4 +1,4 @@
-import { useRef, FC, Suspense } from "react"
+import { useRef, FC, Suspense, useMemo } from "react"
 import * as THREE from "three"
 import { shaderMaterial } from "@react-three/drei"
 import { extend, useFrame } from "@react-three/fiber"
@@ -18,6 +18,29 @@ const WavePool: FC<AssetProps> = ({ model, textures }) => {
   )
 
   const wavePool = WavePoolControl()
+
+  // Memoize the material to avoid re-creating it on each render
+  const material = useMemo(() => {
+    const mat = new THREE.MeshStandardMaterial()
+
+    if (textures && textures.length > 0) {
+      textures.forEach((texture) => {
+        if (texture.name === "diffuseTexture") {
+          mat.map = texture
+        } else if (texture.name === "roughnessTexture") {
+          mat.roughnessMap = texture
+        } else if (texture.name === "normalTexture") {
+          mat.normalMap = texture
+          // mat.normalScale = new THREE.Vector2(1.0, 1.0) // Adjust as needed
+        } else if (texture.name === "aoTexture") {
+          mat.aoMap = texture
+          // Handle any additional textures here
+        }
+      })
+    }
+
+    return mat
+  }, [textures])
 
   /* --------------------- shader material ------------------------ */
 
@@ -78,10 +101,12 @@ const WavePool: FC<AssetProps> = ({ model, textures }) => {
         }
 
         return (
-          <mesh {...defaultMeshProperties} key={mesh.uuid}>
-            {/* We attach a unique key property to the prototype class to enable hot-reload. */}
-            <meshStandardMaterial {...textures} />
-          </mesh>
+          /* We attach a unique key property to the prototype class to enable hot-reload. */
+          <mesh
+            {...defaultMeshProperties}
+            key={mesh.uuid}
+            material={material}
+          />
         )
       }
       return null

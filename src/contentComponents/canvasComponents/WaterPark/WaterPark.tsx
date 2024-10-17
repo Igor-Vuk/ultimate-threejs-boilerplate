@@ -10,6 +10,29 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
   /* ----------------------ref--------------------- */
   const parrotRef = useRef<THREE.Group>(null!)
 
+  // Memoize the material to avoid re-creating it on each render
+  const material = useMemo(() => {
+    const mat = new THREE.MeshStandardMaterial()
+
+    if (textures && textures.length > 0) {
+      textures.forEach((texture) => {
+        if (texture.name === "diffuseTexture") {
+          mat.map = texture
+        } else if (texture.name === "roughnessTexture") {
+          mat.roughnessMap = texture
+        } else if (texture.name === "normalTexture") {
+          mat.normalMap = texture
+          // mat.normalScale = new THREE.Vector2(1.0, 1.0) // Adjust as needed
+        } else if (texture.name === "aoTexture") {
+          mat.aoMap = texture
+          // Handle any additional textures here
+        }
+      })
+    }
+
+    return mat
+  }, [textures])
+
   const curveProps = useMemo(
     () => ({
       curvePoints: parrotPath,
@@ -137,24 +160,21 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
               }
 
               return (
-                <mesh {...customMeshProperties} key={mesh.uuid}>
-                  <meshStandardMaterial
-                    {...textures}
-
-                    /*  color={"#1D8D90"} */
-                  />
-                </mesh>
+                <mesh
+                  {...customMeshProperties}
+                  key={mesh.uuid}
+                  material={material}
+                />
               )
             }
 
             default: {
               return (
-                <mesh {...defaultMeshProperties} key={mesh.uuid}>
-                  <meshStandardMaterial
-                    {...textures}
-                    // wireframe
-                  />
-                </mesh>
+                <mesh
+                  {...defaultMeshProperties}
+                  key={mesh.uuid}
+                  material={material}
+                />
               )
             }
           }
@@ -179,11 +199,9 @@ const WaterPark: FC<AssetProps> = ({ model, textures, actions }) => {
                     castShadow
                     name={skinnedMeshChild.name}
                     geometry={skinnedMeshChild.geometry}
-                    material={skinnedMeshChild.material}
+                    material={material}
                     skeleton={skinnedMeshChild.skeleton}
-                  >
-                    <meshStandardMaterial {...textures} />
-                  </skinnedMesh>
+                  ></skinnedMesh>
 
                   {buttBone && <primitive object={buttBone} />}
                 </group>
